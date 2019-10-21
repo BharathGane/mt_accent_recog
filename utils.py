@@ -1,12 +1,12 @@
 import os
 import re
-from mutagen.mp3 import MP3
-import wave
-import contextlib
-import scipy
-from scipy.io.wavfile import read
+# from mutagen.mp3 import MP3
+# import wave
+# import contextlib
+# import scipy
+# from scipy.io.wavfile import read
 import numpy as np
-import pickle
+# import pickle
 import gc
 import soundfile as sf
 
@@ -45,8 +45,7 @@ def find_max_length(source):
 
 def read_audio_file_data(source):
 	a = sf.read(source)
-	print a[1]
-	return np.array(a[0],dtype=float)
+ 	return np.array(a[0],dtype=float)
 
 def dump_pickle(data,file_path):
 	file = open(file_path, 'wb')

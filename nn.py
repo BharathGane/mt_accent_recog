@@ -62,7 +62,8 @@ class MyNet(nn.Module):
         # input: (batchSize, 1L, 80000L)
         print("inside model")
         # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x)))
-        x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
+        temp  = self.layer1_branch2(x) 
+        x2 = self.relu(self.bn1_branch2(temp))
         # x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
@@ -113,3 +114,4 @@ class MyNet(nn.Module):
         h = self.fc2(h)
         print ("Layer last: ", h.size())
         return h
+mynet = MyNet()
