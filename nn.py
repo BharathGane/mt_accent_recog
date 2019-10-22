@@ -1,4 +1,6 @@
 import torch.nn as nn
+import torch.nn.functional as F 
+import torch
 import numpy as np
 
 
@@ -18,7 +20,7 @@ class MyNet(nn.Module):
         self.layer1_branch1 = nn.Conv1d(in_channels=1, out_channels=32, kernel_size=11, stride=1, padding=5)
         self.layer1_branch2 = nn.Conv1d(in_channels=1, out_channels=32, kernel_size=51, stride=5, padding=25)
         self.layer1_branch3 = nn.Conv1d(in_channels=1, out_channels=32, kernel_size=101, stride=10, padding=50)
-        
+
         self.bn1_branch1 = nn.BatchNorm1d(32)
         self.bn1_branch2 = nn.BatchNorm1d(32)
         self.bn1_branch3 = nn.BatchNorm1d(32)
@@ -76,42 +78,45 @@ class MyNet(nn.Module):
 
         # x1 = torch.unsqueeze(x1, 1)
         x2 = torch.unsqueeze(x2, 1)
-        # x3 = torch.unsqueeze(x3, 1)  
+        # x3 = torch.unsqueeze(x3, 1)
 
-        # h = torch.cat((x1, x2, x3), dim=2) 
+        h = torch.tensor(x2) 
         # print ("After Concatination: ", h.size())
-        
+
         ##############  multiFeature formed above  ##############################
-        
+
         h = x2
         h = self.layer3(h)
         h = self.bn3(h)
         h = self.relu(h)
         h = self.pool3(h)  
         print ("Layer 3: ", h.size())
-        
+
         h = self.layer4(h)
         h = self.bn4(h)
         h = self.relu(h)
         h = self.pool4(h)  
         print ("Layer 4: ", h.size())
-        
+
         h = self.layer5(h)
         h = self.bn5(h)
         h = self.relu(h)
         h = self.pool5(h)
         print ("Layer 5: ", h.size())
-        
-        h = self.layer6(h)
-        h = self.bn6(h)
-        h = self.relu(h)
-        h = self.pool6(h)  
-        print ("Layer 6: ", h.size())
-       
+
+        # h = self.layer6(h)
+        # h = self.bn6(h)
+        # h = self.relu(h)
+        # h = self.pool6(h)  
+        # print ("Layer 6: ", h.size())
+
         h = h.view(-1, num_flat_features(h))  
-        h = F.relu(self.fc1(h))
+        print h.size()
+        h = self.fc1(h)
+        h = F.relu(h)
         h = self.dropout(h)
         h = self.fc2(h)
         print ("Layer last: ", h.size())
         return h
-mynet = MyNet()
+
+mynet = MyNet().double()

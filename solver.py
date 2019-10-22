@@ -33,16 +33,17 @@ def data_loader(value):
         for i in labels:
             gc.collect()
             data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][0]+".wav"))
-            for j in range(0,500):
+            for j in range(0,10):
                 gc.collect()
-                yield (torch.from_numpy(np.tile(data_array[j*80000:j*80000+80000],(32,1,1))),i)
+                yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),i)
     elif value == "test":
         for i in labels:
             gc.collect()
             data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][1]+".wav"))
-            for j in range(0,1):
+            for j in range(0,10):
                 gc.collect()
-                yield (torch.from_numpy(np.tile(data_array[j*80000:j*80000+80000]),(32,1,1)),i)
+                yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),i)
+
 def test():
     for i, data in enumerate(data_loader("test"), 0):
         inputs, labels = data
