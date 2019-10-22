@@ -10,7 +10,7 @@ def num_flat_features(x):
     num_features = 1
     for s in size:
         num_features *= s
-    print("after flatten shape: ",num_features)    
+    # print("after flatten shape: ",num_features)    
     return num_features
 
 
@@ -54,7 +54,7 @@ class MyNet(nn.Module):
         self.pool6 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
 
         self.fc1 = nn.Linear(6144, 1024)
-        self.fc2 = nn.Linear(1024, 10)
+        self.fc2 = nn.Linear(1024, 6)
         # self.fc3 = nn.Linear(4096, 50)
 
         self.dropout = nn.Dropout(p=0.5)
@@ -62,10 +62,11 @@ class MyNet(nn.Module):
         
     def forward(self, x):
         # input: (batchSize, 1L, 80000L)
-        print("inside model")
-        # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x)))
-        temp  = self.layer1_branch2(x) 
-        x2 = self.relu(self.bn1_branch2(temp))
+        # print("inside model")
+        # print x.size()
+        # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x))) 
+        x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
+        # print x2.size()
         # x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
@@ -90,19 +91,19 @@ class MyNet(nn.Module):
         h = self.bn3(h)
         h = self.relu(h)
         h = self.pool3(h)  
-        print ("Layer 3: ", h.size())
+        # print ("Layer 3: ", h.size())
 
         h = self.layer4(h)
         h = self.bn4(h)
         h = self.relu(h)
         h = self.pool4(h)  
-        print ("Layer 4: ", h.size())
+        # print ("Layer 4: ", h.size())
 
         h = self.layer5(h)
         h = self.bn5(h)
         h = self.relu(h)
         h = self.pool5(h)
-        print ("Layer 5: ", h.size())
+        # print ("Layer 5: ", h.size())
 
         # h = self.layer6(h)
         # h = self.bn6(h)
@@ -110,13 +111,12 @@ class MyNet(nn.Module):
         # h = self.pool6(h)  
         # print ("Layer 6: ", h.size())
 
-        h = h.view(-1, num_flat_features(h))  
-        print h.size()
+        h = h.view(-1, num_flat_features(h))
         h = self.fc1(h)
         h = F.relu(h)
         h = self.dropout(h)
         h = self.fc2(h)
-        print ("Layer last: ", h.size())
+        # print ("Layer last: ", h.size())
         return h
 
 mynet = MyNet().double()

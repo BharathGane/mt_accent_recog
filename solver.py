@@ -31,21 +31,20 @@ labels = label_file_name.keys()
 def data_loader(value):
     if value == "train":
         for i in labels:
-            gc.collect()
             data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][0]+".wav"))
             for j in range(0,10):
                 gc.collect()
-                yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),i)
+                yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long))
     elif value == "test":
         for i in labels:
-            gc.collect()
             data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][1]+".wav"))
             for j in range(0,10):
                 gc.collect()
-                yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),i)
+                yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long))
 
 def test():
     for i, data in enumerate(data_loader("test"), 0):
+        gc.collect()
         inputs, labels = data
         outputs = mynet(inputs)
         print outputs,labels
@@ -72,5 +71,5 @@ def train():
                 print('[%d, %5d] loss: %.3f' %
                       (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
-
-    print('Finished Training')
+            gc.collect()
+    # print('Finished Training')
