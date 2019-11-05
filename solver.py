@@ -39,14 +39,14 @@ def data_loader(value):
             for j in range(len(label_file_name[i])-1):
                 data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
-                for k in read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
+                for k in utils.read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
                     gc.collect()
                     yield (torch.from_numpy(np.tile(k,(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),\
                             torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
     elif value == "test":
         for i in labels:
             data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
-            for k in read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
+            for k in utils.read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
                 gc.collect()
                 # yield (torch.from_numpy(np.tile(data_array[k*chunk_size:k*chunk_size+chunk_size],(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
@@ -74,7 +74,7 @@ def train():
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data
-
+            print labels
             # zero the parameter gradients
             optimizer.zero_grad()
 
