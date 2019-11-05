@@ -80,8 +80,8 @@ class MyNet(nn.Module):
         # x1 = torch.unsqueeze(x1, 1)
         x2 = torch.unsqueeze(x2, 1)
         # x3 = torch.unsqueeze(x3, 1)
-
-        h = torch.tensor(x2) 
+        h = x2.clone().detach()
+        # h = torch.tensor(x2)    
         # print ("After Concatination: ", h.size())
 
         ##############  multiFeature formed above  ##############################

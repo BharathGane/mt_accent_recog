@@ -82,9 +82,9 @@ def train():
 
             # forward + backward + optimize
             outputs = model(inputs).cuda()
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
+            loss = criterion(outputs, labels).cuda()
+            loss.backward().cuda()
+            optimizer.step().cuda()
 
             # print statistics
             running_loss += loss.item()
