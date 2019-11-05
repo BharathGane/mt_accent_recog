@@ -61,13 +61,14 @@ def test():
         gc.collect()
         inputs, labels = data
         outputs = model(inputs).cuda()
-        _, predicted = torch.cuda.max(outputs, 1)
+        _, predicted = torch.max(outputs, 1)
         c = (predicted == labels).squeeze()
+        print c,predicted
         for i in range(4):
             label = labels[i]
             class_correct[label] += c[i].item()
             class_total[label] += 1
-        # print class_total,class_correct
+            print class_total,class_correct
     return class_total,class_correct
 
 def train():
