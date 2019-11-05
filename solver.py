@@ -41,7 +41,7 @@ def data_loader(value):
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
                 for k in read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
                     gc.collect()
-                    yield (torch.from_numpy(np.tile(k,(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),/
+                    yield (torch.from_numpy(np.tile(k,(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),\
                             torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
     elif value == "test":
         for i in labels:
