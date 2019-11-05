@@ -33,7 +33,7 @@ def data_loader(value):
     freq = 41000
     chunk_size = 82000
     time_each_chunk = chunk_size/freq
-    traning_time_in_sec = 30
+    traning_time_in_sec = 200
     number_of_chunks = traning_time_in_sec/time_each_chunk
     if value == "train":
         for i in labels:
@@ -72,7 +72,7 @@ def test():
     return class_total,class_correct
 
 def train():
-    for epoch in range(2):  # loop over the dataset multiple times
+    for epoch in range(1):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
