@@ -37,7 +37,8 @@ def data_loader(value):
     if value == "train":
         for i in labels:
             for j in range(len(label_file_name[i])-1):
-                data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
+                # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
+                source = os.path.join("./combined_wav_files",label_file_name[i][j]+".wav")
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
                 for k in utils.read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
                     gc.collect()
@@ -45,7 +46,8 @@ def data_loader(value):
                             torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
     elif value == "test":
         for i in labels:
-            data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
+            source = os.path.join("./combined_wav_files",label_file_name[i][3]+".wav")
+            # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
             for k in utils.read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
                 gc.collect()
