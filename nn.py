@@ -78,10 +78,10 @@ class MyNet(nn.Module):
         # x3 = self.pool2_branch3(x3)  
 
         # x1 = torch.unsqueeze(x1, 1)
-        x2 = torch.unsqueeze(x2, 1)
+        x2 = torch.cuda.unsqueeze(x2, 1)
         # x3 = torch.unsqueeze(x3, 1)
 
-        h = torch.tensor(x2) 
+        h = torch.cuda.tensor(x2) 
         # print ("After Concatination: ", h.size())
 
         ##############  multiFeature formed above  ##############################

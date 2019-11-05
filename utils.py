@@ -46,6 +46,9 @@ def find_max_length(source):
 def read_audio_file_data(source):
 	a = sf.read(source)
  	return np.array(a[0],dtype=float)
+def read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
+	for i in range(number_of_chunks):
+		yield np.array(sf.read(start = i*chunk_size,stop = i*chunk_size+chunk_size,file = source)[0],dtype=float)
 
 def dump_pickle(data,file_path):
 	file = open(file_path, 'wb')
@@ -64,15 +67,17 @@ def combine_all_audio_files(source):
 	sf.write(destination,all_data,44100)
 	return "success"
 if __name__ == '__main__':
+	for i in read_audio_file_data_chunks("./combined_wav_files/ABA.wav",20,5):
+		print i
 	# seperate_files("./recordings")
 	# find_max_length("./l2arctic_release_v4.0/")
 	# print len(read_audio_file_data("arctic_a0001.wav"))
-	for root,dirnames,filename in os.walk("./l2arctic_release_v4.0/"):
-		dir_names = dirnames
-		break
-	for i in dir_names:
-		print "Combining all wav files ","-------------",os.path.join("./l2arctic_release_v4.0/",i)
-		print combine_all_audio_files(os.path.join("./l2arctic_release_v4.0/",i,"wav"))
+	# for root,dirnames,filename in os.walk("./l2arctic_release_v4.0/"):
+	# 	dir_names = dirnames
+	# 	break
+	# for i in dir_names:
+	# 	print "Combining all wav files ","-------------",os.path.join("./l2arctic_release_v4.0/",i)
+	# 	print combine_all_audio_files(os.path.join("./l2arctic_release_v4.0/",i,"wav"))
 		# print "Deletion of ",os.path.join("./l2arctic_release_v4.0/",i,"main.npy")
 		# try:
 			# os.system("rm -f " + os.path.join("./l2arctic_release_v4.0/",i,"main.npy"))
