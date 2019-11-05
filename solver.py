@@ -20,9 +20,9 @@ file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic"
                 "ASI":"Hindi","RRBI":"Hindi","SVBI":"Hindi","TNI":"Hindi",
                 "HJK":"Korean","HKK":"Korean","YDCK":"Korean","YKWK":"Korean",
                 "EBVS":"Spanish","ERMS":"Spanish","MBMPS":"Spanish","NJS":"Spanish",
-                "HQTV":"Vietnamese","PNV":"Vietnamese","THV":"Vietnamese","TLP":"Vietnamese"}
+                "HQTV":"Vietnamese","PNV":"Vietnamese","THV":"Vietnamese","TLV":"Vietnamese"}
 label_file_name = {'Chinese': ['TXHC', 'BWC', 'LXC', 'NCC'], 
-                'Vietnamese': ['HQTV', 'TLP', 'THV', 'PNV'], 
+                'Vietnamese': ['HQTV', 'TLV', 'THV', 'PNV'], 
                 'Hindi': ['ASI', 'RRBI', 'TNI', 'SVBI'], 
                 'Spanish': ['ERMS', 'NJS', 'EBVS', 'MBMPS'], 
                 'Korean': ['YKWK', 'HKK', 'YDCK', 'HJK'], 
