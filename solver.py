@@ -14,7 +14,7 @@ model = MyNet()
 
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay= 0.0005)
 exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
-criterion = nn.CrossEntropyLoss()
+criterion = nn.CrossEntropyLoss().cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
                 "ASI":"Hindi","RRBI":"Hindi","SVBI":"Hindi","TNI":"Hindi",
@@ -82,9 +82,9 @@ def train():
 
             # forward + backward + optimize
             outputs = model(inputs).cuda()
-            loss = criterion(outputs, labels).cuda()
-            loss.backward().cuda()
-            optimizer.step().cuda()
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
 
             # print statistics
             running_loss += loss.item()
