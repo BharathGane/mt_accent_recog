@@ -33,7 +33,7 @@ def data_loader(value):
     freq = 41000
     chunk_size = 82000
     time_each_chunk = chunk_size/freq
-    traning_time_in_sec = 500
+    traning_time_in_sec = 10
     number_of_chunks = traning_time_in_sec/time_each_chunk
     if value == "train":
         for i in labels:
