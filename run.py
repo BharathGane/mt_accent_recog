@@ -4,5 +4,5 @@ if __name__ == '__main__':
 	solver.train()
 	print "Training ended"
 	print "testing started"
-	solver.test()
+	print solver.test()
 	print "testing ended"

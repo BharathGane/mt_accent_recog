@@ -43,12 +43,20 @@ def data_loader(value):
                 yield (torch.tensor(np.tile(data_array[j*80000:j*80000+80000],(32,1,1)),dtype = torch.double),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long))
 
 def test():
+    class_correct = list(0. for i in range(6))
+    class_total = list(0. for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
         gc.collect()
         inputs, labels = data
         outputs = mynet(inputs)
-        print outputs,labels
-
+        _, predicted = torch.max(outputs, 1)
+        c = (predicted == labels).squeeze()
+        for i in range(4):
+            label = labels[i]
+            class_correct[label] += c[i].item()
+            class_total[label] += 1
+        # print class_total,class_correct
+    return class_total,class_correct
 def train():
     for epoch in range(2):  # loop over the dataset multiple times
         running_loss = 0.0
