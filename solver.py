@@ -34,6 +34,7 @@ def data_loader(value):
     chunk_size = 82000
     time_each_chunk = chunk_size/freq
     traning_time_in_sec = 500
+    number_of_chunks = traning_time_in_sec/time_each_chunk
     if value == "train":
         for i in labels:
             for j in range(len(label_file_name[i])-1):
