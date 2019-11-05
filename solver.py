@@ -10,7 +10,7 @@ import numpy as np
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch v0.4.0
 print(device)
-model = MyNet().to(device)
+model = MyNet()
 
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay= 0.0005)
 exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
@@ -60,7 +60,7 @@ def test():
     for i, data in enumerate(data_loader("test"), 0):
         gc.collect()
         inputs, labels = data
-        outputs = model(inputs).to(device)
+        outputs = model(inputs).cuda()
         _, predicted = torch.cuda.max(outputs, 1)
         c = (predicted == labels).squeeze()
         for i in range(4):
@@ -81,7 +81,7 @@ def train():
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs = model(inputs).to(device)
+            outputs = model(inputs).cuda()
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
