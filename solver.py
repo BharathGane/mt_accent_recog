@@ -33,7 +33,7 @@ def data_loader(value):
     freq = 41000
     chunk_size = 82000
     time_each_chunk = chunk_size/freq
-    traning_time_in_sec = 2
+    traning_time_in_sec = 50
     number_of_chunks = traning_time_in_sec/time_each_chunk
     if value == "train":
         for i in labels:
@@ -63,12 +63,12 @@ def test():
         outputs = model(inputs).cuda()
         _, predicted = torch.max(outputs, 1)
         c = (predicted == labels).squeeze()
-        print c,predicted
+        # print c,predicted
         for i in range(4):
             label = labels[i]
             class_correct[label] += c[i].item()
             class_total[label] += 1
-            print class_total,class_correct
+            # print class_total,class_correct
     return class_total,class_correct
 
 def train():
@@ -77,7 +77,7 @@ def train():
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data
-            print labels
+            # print labels
             # zero the parameter gradients
             optimizer.zero_grad()
 
