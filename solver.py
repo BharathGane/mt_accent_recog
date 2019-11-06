@@ -30,8 +30,8 @@ label_file_name = {'Chinese': ['TXHC', 'BWC', 'LXC', 'NCC'],
 labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
 
 def data_loader(value):
-    freq = 41000
-    chunk_freq = 61500
+    freq = 44100
+    chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
     traning_time_in_sec = 1000
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
