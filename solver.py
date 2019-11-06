@@ -64,7 +64,8 @@ def test():
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
-        _, predicted = torch.max(outputs, 1)
+        x, predicted = torch.max(outputs, 1)
+        print x,predicted
         c = (predicted == labels).squeeze()
         # print c,predicted
         for i in range(4):
