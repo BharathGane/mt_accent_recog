@@ -47,7 +47,7 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
-            source = os.path.join("./combined_wav_files",label_file_name[i][3]+".wav")
+            source = os.path.join("./combined_wav_files",label_file_name[i][2]+".wav")
             # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
             for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
@@ -64,8 +64,7 @@ def test():
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
-        x, predicted = torch.max(outputs, 1)
-        print x,predicted
+        _, predicted = torch.max(outputs, 1)
         c = (predicted == labels).squeeze()
         # print c,predicted
         for i in range(4):
