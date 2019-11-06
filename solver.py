@@ -33,7 +33,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 1000
+    traning_time_in_sec = 2000
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
@@ -47,7 +47,7 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
-            source = os.path.join("./combined_wav_files",label_file_name[i][2]+".wav")
+            source = os.path.join("./combined_wav_files",label_file_name[i][3]+".wav")
             # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
             for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
@@ -56,7 +56,7 @@ def data_loader(value):
                 yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model2.pt'))
+    model.load_state_dict(torch.load('./model3.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -75,9 +75,9 @@ def test():
     return class_total,class_correct
 
 def train():
-    model.load_state_dict(torch.load('./model2.pt'))
-    model.eval()
-    for epoch in range(1):  # loop over the dataset multiple times
+    # model.load_state_dict(torch.load('./model3.pt'))
+    # model.eval()
+    for epoch in range(32):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
@@ -94,10 +94,10 @@ def train():
 
             # print statistics
             running_loss += loss.item()
-            if i % 500  == 499:    # print every 2000 mini-batches
+            if i % 1000  == 999:    # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 500))
+                      (epoch + 1, i + 1, running_loss / 1000))
                 running_loss = 0.0
             gc.collect()
-    torch.save(model.state_dict(), "./model2.pt")
+    torch.save(model.state_dict(), "./model3.pt")
     # print('Finished Training')
