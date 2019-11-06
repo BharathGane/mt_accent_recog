@@ -31,7 +31,7 @@ labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
 
 def data_loader(value):
     freq = 41000
-    chunk_size = 61500
+    chunk_size = 41000
     time_each_chunk = chunk_size/freq
     traning_time_in_sec = 3
     number_of_chunks = traning_time_in_sec/time_each_chunk
