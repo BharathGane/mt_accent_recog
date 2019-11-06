@@ -54,7 +54,9 @@ class MyNet(nn.Module):
         self.pool6 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
 
         self.fc1 = nn.Linear(6144, 1024)
-        self.fc2 = nn.Linear(1024, 6)
+        self.fc1 = nn.Linear(1024, 256)
+        # self.fc2 = nn.Linear(1024, 6)
+        self.fc2 = nn.Linear(256, 6)
         # self.fc3 = nn.Linear(4096, 50)
 
         self.dropout = nn.Dropout(p=0.5)
@@ -104,7 +106,7 @@ class MyNet(nn.Module):
         h = self.relu(h)
         h = self.pool5(h)
         print ("Layer 5: ", h.size())
-        
+
         h = self.layer6(h)
         h = self.bn6(h)
         h = self.relu(h)
