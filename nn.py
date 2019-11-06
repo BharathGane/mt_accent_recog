@@ -112,7 +112,9 @@ class MyNet(nn.Module):
         # print ("Layer 6: ", h.size())
 
         h = h.view(-1, num_flat_features(h))
+        print h.size()
         h = self.fc1(h)
+        print h.size()
         h = F.relu(h)
         h = self.dropout(h)
         h = self.fc2(h)
