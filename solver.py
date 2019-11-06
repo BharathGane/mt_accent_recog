@@ -94,9 +94,9 @@ def train():
 
             # print statistics
             running_loss += loss.item()
-            if i % 2000 == 1999:    # print every 2000 mini-batches
+            if i % 500  == 499:    # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 2000))
+                      (epoch + 1, i + 1, running_loss / 500))
                 running_loss = 0.0
             gc.collect()
     torch.save(model.state_dict(), "./model2.pt")
