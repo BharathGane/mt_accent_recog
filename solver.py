@@ -63,7 +63,8 @@ def test():
     for i, data in enumerate(data_loader("test"), 0):
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
-        outputs = model(inputs).cuda()
+        outputs = model(inputs).to(device)
+        print outputs
         _, predicted = torch.max(outputs, 1)
         c = (predicted == labels).squeeze()
         # print c,predicted
@@ -85,7 +86,7 @@ def train():
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs = model(inputs).cuda()
+            outputs = model(inputs).to(device)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
