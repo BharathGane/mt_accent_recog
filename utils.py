@@ -46,6 +46,7 @@ def find_max_length(source):
 def read_audio_file_data(source):
 	a = sf.read(source)
  	return np.array(a[0],dtype=float)
+
 def read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
 	for i in range(number_of_chunks):
 		yield np.array(sf.read(start = i*chunk_size,stop = i*chunk_size+chunk_size,file = source)[0],dtype=float)
