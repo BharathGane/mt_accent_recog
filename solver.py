@@ -33,7 +33,7 @@ def data_loader(value):
     freq = 41000
     chunk_freq = 61500
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 2
+    traning_time_in_sec = 500
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
