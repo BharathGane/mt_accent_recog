@@ -33,7 +33,7 @@ def data_loader(value):
     freq = 41000
     chunk_size = 82000
     time_each_chunk = chunk_size/freq
-    traning_time_in_sec = 200
+    traning_time_in_sec = 500
     number_of_chunks = traning_time_in_sec/time_each_chunk
     if value == "train":
         for i in labels:
@@ -55,6 +55,8 @@ def data_loader(value):
                 yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
 
 def test():
+    model.load_state_dict(torch.load('./model.pt'))
+    model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
@@ -72,7 +74,7 @@ def test():
     return class_total,class_correct
 
 def train():
-    for epoch in range(1):  # loop over the dataset multiple times
+    for epoch in range(2):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
@@ -94,4 +96,5 @@ def train():
                       (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
             gc.collect()
+    torch.save(model.state_dict(), "./model.pt")
     # print('Finished Training')
