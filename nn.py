@@ -123,4 +123,4 @@ class MyNet(nn.Module):
         # print ("Layer last: ", h.size())
         return h
 
-mynet = MyNet().double()
+mynet = MyNet().cuda()
