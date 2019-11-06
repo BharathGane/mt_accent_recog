@@ -67,28 +67,29 @@ class MyNet(nn.Module):
         # print("inside model")
         # print x.size()
         # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x))) 
-        x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
+        # x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
         # print x2.size()
-        # x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
+        x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
-        x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
-        # x3 = self.relu(self.bn2_branch3(self.layer2_branch3(x3)))
+        # x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
+        x3 = self.relu(self.bn2_branch3(self.layer2_branch3(x3)))
 
         # x1 = self.pool2_branch1(x1)
-        x2 = self.pool2_branch2(x2)
-        # x3 = self.pool2_branch3(x3)  
+        # x2 = self.pool2_branch2(x2)
+        x3 = self.pool2_branch3(x3)  
 
         # x1 = torch.unsqueeze(x1, 1)
-        x2 = torch.unsqueeze(x2, 1)
-        # x3 = torch.unsqueeze(x3, 1)
-        h = x2.clone().detach()
+        # x2 = torch.unsqueeze(x2, 1)
+        x3 = torch.unsqueeze(x3, 1)
+        # h = x2.clone().detach()
+        h = x3.clone().detach()
         # h = torch.tensor(x2)    
         # print ("After Concatination: ", h.size())
 
         ##############  multiFeature formed above  ##############################
 
-        h = x2
+        h = x3
         h = self.layer3(h)
         h = self.bn3(h)
         h = self.relu(h)
