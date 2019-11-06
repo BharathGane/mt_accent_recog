@@ -32,7 +32,7 @@ labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
 def data_loader(value):
     freq = 41000
     chunk_freq = 82000
-    time_each_chunk = float(chunk_size)/float(freq)
+    time_each_chunk = float(chunk_freq)/float(freq)
     traning_time_in_sec = 2
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     if value == "train":
@@ -41,17 +41,17 @@ def data_loader(value):
                 # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
                 source = os.path.join("./combined_wav_files",label_file_name[i][j]+".wav")
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
-                for k in utils.read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
+                for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
                     gc.collect()
                     yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
             source = os.path.join("./combined_wav_files",label_file_name[i][3]+".wav")
             # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
-            for k in utils.read_audio_file_data_chunks(source,chunk_size,number_of_chunks):
+            for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
                 gc.collect()
-                # yield (torch.from_numpy(np.tile(data_array[k*chunk_size:k*chunk_size+chunk_size],(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
+                # yield (torch.from_numpy(np.tile(data_array[k*chunk_freq:k*chunk_freq+chunk_freq],(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
                 yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
 
 def test():
