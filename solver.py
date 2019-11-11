@@ -64,10 +64,7 @@ def test():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
-        label = labels[0]
-        print labels,predicted
-        print type(label),type(predicted)
-        if predicted == label:
+        if predicted == labels:
             class_correct[label] += 1
         class_total[label] += 1
         # print class_total,class_correct
