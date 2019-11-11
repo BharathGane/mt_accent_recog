@@ -63,7 +63,7 @@ class MyNet(nn.Module):
         self.relu = nn.ReLU()
         
     def forward(self, x):
-        print x.size()
+        # print x.size()
         # input: (batchSize, 1L, 80000L)
         # print("inside model")
         # print x.size()
@@ -74,20 +74,20 @@ class MyNet(nn.Module):
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
         # x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
-        print x3.size()
+        # print x3.size()
         x3 = self.relu(self.bn2_branch3(self.layer2_branch3(x3)))
 
         # x1 = self.pool2_branch1(x1)
         # x2 = self.pool2_branch2(x2)
         x3 = self.pool2_branch3(x3)  
-        print x3.size()
+        # print x3.size()
         # x1 = torch.unsqueeze(x1, 1)
         # x2 = torch.unsqueeze(x2, 1)
         x3 = torch.unsqueeze(x3, 1)
-        print x3.size()
+        # print x3.size()
         # h = x2.clone().detach()
         h = x3.clone().detach()
-        print h.size()
+        # print h.size()
         # h = torch.tensor(x2)    
         # print ("After Concatination: ", h.size())
 
