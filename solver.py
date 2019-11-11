@@ -31,15 +31,16 @@ labels_id = {}
 for i in range(len(labels)):
     labels_id[labels[i]] = list(0 for i in range(6))
     labels_id[labels[i]][i] = 1
+
 def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 2
+    traning_time_in_sec = 3
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
-        for i in labels:
+        for i in labels[:3]:
             for j in range(len(label_file_name[i])-1):
                 # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
                 source = os.path.join("./combined_wav_files",label_file_name[i][j]+".wav")
@@ -48,7 +49,7 @@ def data_loader(value):
                     gc.collect()
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
-        for i in labels:
+        for i in labels[3:]:
             source = os.path.join("./combined_wav_files",label_file_name[i][0]+".wav")
             # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
             for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
@@ -67,6 +68,7 @@ def test():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
+        print labels,predicted
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
