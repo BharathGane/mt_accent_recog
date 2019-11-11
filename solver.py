@@ -24,9 +24,9 @@ label_file_name = {'Chinese': ['TXHC', 'BWC', 'LXC', 'NCC'],
                 'Vietnamese': ['HQTV', 'TLV', 'THV', 'PNV'], 
                 'Hindi': ['ASI', 'RRBI', 'TNI', 'SVBI'], 
                 'Spanish': ['ERMS', 'NJS', 'EBVS', 'MBMPS'], 
-                'Korean': ['YKWK', 'HKK', 'YDCK', 'HJK']
-                }
-labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean"]
+                'Korean': ['YKWK', 'HKK', 'YDCK', 'HJK'], 
+                'Arabic': ['YBAA', 'SKA', 'ZHAA', 'ABA']}
+labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
 
 def data_loader(value):
     freq = 44100
@@ -76,7 +76,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./model3.pt'))
     # model.eval()
-    for epoch in range(2):  # loop over the dataset multiple times
+    for epoch in range(4):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
