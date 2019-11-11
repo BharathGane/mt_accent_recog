@@ -32,7 +32,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 100
+    traning_time_in_sec = 10
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
@@ -69,7 +69,7 @@ def test():
         print labels
         # for i in range(32):
         label = labels[0]
-        if c[0] == False:
+        if c == False:
             class_correct[label] += 1
         class_total[label] += 1
         # print class_total,class_correct
