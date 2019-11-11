@@ -55,7 +55,7 @@ def data_loader(value):
                 yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model3.pt'))
+    model.load_state_dict(torch.load('./model4.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -98,5 +98,5 @@ def train():
                       (epoch + 1, i + 1, running_loss / 1000))
                 running_loss = 0.0
             gc.collect()
-    torch.save(model.state_dict(), "./model3.pt")
+    torch.save(model.state_dict(), "./model4.pt")
     # print('Finished Training')
