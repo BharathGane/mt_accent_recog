@@ -65,8 +65,8 @@ def test():
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
         if predicted == labels:
-            class_correct[label] += 1
-        class_total[label] += 1
+            class_correct[labels[0]] += 1
+        class_total[labels[0]] += 1
         # print class_total,class_correct
     print sum(class_correct)/sum(class_total)
     return class_total,class_correct
