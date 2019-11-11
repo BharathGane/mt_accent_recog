@@ -68,7 +68,7 @@ def test():
         # print c,predicted
         # for i in range(32):
         label = labels[0]
-        class_correct[label] += c[i].item()
+        class_correct[label] += c[0].item()
         class_total[label] += 1
         # print class_total,class_correct
     return class_total,class_correct
