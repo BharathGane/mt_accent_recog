@@ -32,7 +32,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 200
+    traning_time_in_sec = 750
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
@@ -65,7 +65,7 @@ def test():
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
         label = labels[0]
-        print label,predicted
+        # print label,predicted
         if predicted == label:
             class_correct[label] += 1
         class_total[label] += 1
@@ -74,9 +74,9 @@ def test():
     return class_total,class_correct
 
 def train():
-    # model.load_state_dict(torch.load('./model3.pt'))
+    # model.load_state_dict(torch.load('./kernal_101.pt'))
     # model.eval()
-    for epoch in range(4):  # loop over the dataset multiple times
+    for epoch in range(16):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
