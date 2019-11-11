@@ -32,7 +32,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 10
+    traning_time_in_sec = 100
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
@@ -46,7 +46,7 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
-            source = os.path.join("./combined_wav_files",label_file_name[i][0]+".wav")
+            source = os.path.join("./combined_wav_files",label_file_name[i][]+".wav")
             # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
             for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
@@ -65,8 +65,8 @@ def test():
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
         c = (predicted == labels).squeeze()
-        print c,predicted
-        print labels
+        # print c,predicted
+        # print labels
         # for i in range(32):
         label = labels[0]
         if c == False:
@@ -78,7 +78,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./model3.pt'))
     # model.eval()
-    for epoch in range(1):  # loop over the dataset multiple times
+    for epoch in range(2):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
