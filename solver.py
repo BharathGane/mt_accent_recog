@@ -11,7 +11,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay= 0.0005)
+optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay= 0.0005)
 exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
 criterion = nn.CrossEntropyLoss().cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -35,7 +35,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 750
+    traning_time_in_sec = 2
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
