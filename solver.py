@@ -43,7 +43,7 @@ def data_loader(value):
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
                 for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
                     gc.collect()
-                    yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
+                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
             source = os.path.join("./combined_wav_files",label_file_name[i][0]+".wav")
@@ -52,7 +52,7 @@ def data_loader(value):
             # for k in range(0,traning_time_in_sec/time_each_chunk):
                 gc.collect()
                 # yield (torch.from_numpy(np.tile(data_array[k*chunk_freq:k*chunk_freq+chunk_freq],(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
-                yield (torch.tensor(np.tile(k,(32,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.long).cuda())
+                yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
     model.load_state_dict(torch.load('./model4.pt'))
