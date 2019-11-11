@@ -64,6 +64,8 @@ def test():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
+        print outputs
+        print predicted
         c = (predicted == labels).squeeze()
         print labels
         print class_correct
