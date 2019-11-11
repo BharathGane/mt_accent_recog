@@ -69,7 +69,6 @@ def test():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
-        print i
         print labels,predicted
         if predicted == labels:
             class_correct[labels[0]] += 1
@@ -81,7 +80,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./kernal_101_1.pt'))
     # model.eval()
-    for epoch in range(10):  # loop over the dataset multiple times
+    for epoch in range(100):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
