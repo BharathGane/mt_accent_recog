@@ -24,9 +24,9 @@ label_file_name = {'Chinese': ['TXHC', 'BWC', 'LXC', 'NCC'],
                 'Vietnamese': ['HQTV', 'TLV', 'THV', 'PNV'], 
                 'Hindi': ['ASI', 'RRBI', 'TNI', 'SVBI'], 
                 'Spanish': ['ERMS', 'NJS', 'EBVS', 'MBMPS'], 
-                'Korean': ['YKWK', 'HKK', 'YDCK', 'HJK'], 
-                'Arabic': ['YBAA', 'SKA', 'ZHAA', 'ABA']}
-labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
+                'Korean': ['YKWK', 'HKK', 'YDCK', 'HJK']
+                }
+labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean"]
 
 def data_loader(value):
     freq = 44100
