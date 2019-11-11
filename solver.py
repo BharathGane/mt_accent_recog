@@ -75,9 +75,9 @@ def test():
     return class_total,class_correct
 
 def train():
-    # model.load_state_dict(torch.load('./kernal_101_1.pt'))
-    # model.eval()
-    for epoch in range(2):  # loop over the dataset multiple times
+    model.load_state_dict(torch.load('./kernal_101_1.pt'))
+    model.eval()
+    for epoch in range(1):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
