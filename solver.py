@@ -69,7 +69,8 @@ def test():
         print labels
         # for i in range(32):
         label = labels[0]
-        class_correct[label] += c[0].item()
+        if c[0] == False:
+            class_correct[label] += 1
         class_total[label] += 1
         # print class_total,class_correct
     return class_total,class_correct
