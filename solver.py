@@ -11,9 +11,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(),lr=0.01, momentum=0.9)
+optimizer = optim.SGD(model.parameters(),lr=0.1, momentum=0.9)
 exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
-criterion = nn.CrossEntropyLoss().cuda()
+criterion = nn.CrossEntropyLoss(reduction='mean'    ).cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
                 "ASI":"Hindi","RRBI":"Hindi","SVBI":"Hindi","TNI":"Hindi",
@@ -87,13 +87,13 @@ def train():
             inputs, labels = data[0].to(device),data[1].to(device)
             # print labels
             # zero the parameter gradients
-            optimizer.zero_grad()
 
             # forward + backward + optimize
             outputs = model(inputs).to(device)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
+            optimizer.zero_grad()
 
             # print statistics
             running_loss += loss.item()
