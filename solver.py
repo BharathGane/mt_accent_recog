@@ -84,7 +84,9 @@ def train():
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
-            inputs.to(device), labels.to(device) = data[0],data[1]
+            inputs, labels = data[0],data[1]
+            inputs = inputs.to(device)
+            labels = labels.to(device)
             # print labels
             # zero the parameter gradients
             model.train()
