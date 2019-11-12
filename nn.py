@@ -60,7 +60,7 @@ class MyNet(nn.Module):
         # self.fc3 = nn.Linear(4096, 50)
 
         self.dropout = nn.Dropout(p=0.5)
-        self.relu = F.ReLU()
+        self.relu = F.relu()
         
     def forward(self, x):
         # print x.size()
