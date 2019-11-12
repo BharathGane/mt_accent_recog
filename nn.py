@@ -60,7 +60,7 @@ class MyNet(nn.Module):
         # self.fc3 = nn.Linear(4096, 50)
 
         self.dropout = nn.Dropout(p=0.5)
-        self.relu = F.relu()
+        # self.relu = F.relu()
         
     def forward(self, x):
         # print x.size()
@@ -70,12 +70,12 @@ class MyNet(nn.Module):
         # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x))) 
         # x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
         # print x2.size()
-        x3 = self.bn1_branch3(self.relu(self.layer1_branch3(x)))
+        x3 = self.bn1_branch3(F.relu(self.layer1_branch3(x)))
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
         # x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
         # print x3.size()
-        x3 = self.bn2_branch3(self.relu(self.layer2_branch3(x3)))
+        x3 = self.bn2_branch3(F.relu(self.layer2_branch3(x3)))
 
         # x1 = self.pool2_branch1(x1)
         # x2 = self.pool2_branch2(x2)
@@ -96,25 +96,25 @@ class MyNet(nn.Module):
         h = x3
         h = self.layer3(h)
         h = self.bn3(h)
-        h = self.relu(h)
+        h = F.relu(h)
         h = self.pool3(h)  
         # print ("Layer 3: ", h.size())
 
         h = self.layer4(h)
         h = self.bn4(h)
-        h = self.relu(h)
+        h = F.relu(h)
         h = self.pool4(h)  
         # print ("Layer 4: ", h.size())
 
         h = self.layer5(h)
         h = self.bn5(h)
-        h = self.relu(h)
+        h = F.relu(h)
         h = self.pool5(h)
         # print ("Layer 5: ", h.size())
 
         h = self.layer6(h)
         h = self.bn6(h)
-        h = self.relu(h)
+        h = F.relu(h)
         h = self.pool6(h)  
         # print ("Layer 6: ", h.size())
 
