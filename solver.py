@@ -12,8 +12,8 @@ print(device)
 model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(),lr=0.1, momentum=0.9)
-exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
-criterion = nn.CrossEntropyLoss(reduction='mean'    ).cuda()
+# exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
+criterion = nn.CrossEntropyLoss().cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
                 "ASI":"Hindi","RRBI":"Hindi","SVBI":"Hindi","TNI":"Hindi",
@@ -84,9 +84,7 @@ def train():
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
-            inputs, labels = data[0],data[1]
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            inputs.to(device), labels = data[0],data[1].to(device)
             # print labels
             # zero the parameter gradients
             model.train()
