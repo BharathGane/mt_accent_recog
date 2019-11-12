@@ -87,7 +87,7 @@ def train():
             inputs, labels = data[0].to(device),data[1].to(device)
             # print labels
             # zero the parameter gradients
-
+            model.train()
             # forward + backward + optimize
             outputs = model(inputs).to(device)
             loss = criterion(outputs, labels.long())
