@@ -116,12 +116,12 @@ class MyNet(nn.Module):
         # print ("Layer 6: ", h.size())
 
         h = h.view(-1, num_flat_features(h))
-        h = self.fc1(h)
-        h = self.relu(h)
-        h = self.dropout(h)
-        h = self.fc2(h)
-        h = self.relu(h)
-        h = self.dropout(h)
+        # h = self.fc1(h)
+        # h = self.relu(h)
+        # h = self.dropout(h)
+        # h = self.fc2(h)
+        # h = self.relu(h)
+        # h = self.dropout(h)
         h = self.fc3(h)
         # print ("Layer last: ", h.size())
         return h
