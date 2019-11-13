@@ -70,13 +70,19 @@ def read_audio_file_data(source):
 def read_audio_file_data_pickle(source,interator,chunk_size):
 	with open(source,"rb") as file_:
 		data = pickle.load(file_)
-	yield data[interator*chunk_size:interator*chunk_size+chunk_size]
+	temp = []
+	for i in range(chunk_size):
+		temp.append(data[i*chunk_size:i*chunk_size+chunk_size])
+	yield np.asarray(temp)
 
 def read_audio_file_data_pickle_test(source,chunk_size,number_of_chunks):
 	with open(source,"rb") as file_:
 		data = pickle.load(file_)
 	for i in range(number_of_chunks):
-		yield data[i*chunk_size:i*chunk_size+chunk_size]
+		temp = []
+		for j in range(chunk_size):
+			temp.append(data[i*chunk_size:i*chunk_size+chunk_size])
+		yield np.asarray(temp)
 
 def read_audio_file_data_chunks(source,interator,chunk_size,number_of_chunks):
 	# for i in range(number_of_chunks):
