@@ -92,12 +92,12 @@ class MyNet(nn.Module):
         # print ("After Concatination: ", h.size())
 
         ##############  multiFeature formed above  ##############################
-        print h.size()
+        print x3
         h = self.layer3(x3)
         h = self.bn3(h)
         h = self.relu(h)
         h = self.pool3(h)  
-        # print ("Layer 3: ", h.size())
+        print ("Layer 3: ", h.size())
 
         h = self.layer4(h)
         h = self.bn4(h)
