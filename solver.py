@@ -36,7 +36,7 @@ for i in range(len(labels)):
 
 def data_loader(value):
     # 1/43 second each 
-    number_of_samples = 67
+    number_of_samples = 670
     chunk_size = 67
     number_of_chunks = number_of_samples/chunk_size
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
@@ -101,6 +101,7 @@ def train():
 
             # print statistics
             running_loss += loss.item()
+            print running_loss
             if i % 100  == 99:    # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
                       (epoch + 1, i + 1, running_loss / 99))
