@@ -72,8 +72,8 @@ def read_audio_file_data_pickle(source,interator,chunk_size):
 		data = pickle.load(file_)
 	temp = []
 	for i in range(chunk_size):
-		print temp.shape
-		print data[i*chunk_size:i*chunk_size+chunk_size]
+		print np.array(temp).shape
+		print np.array(data[i*chunk_size:i*chunk_size+chunk_size]).shape
 		temp.extend(data[i*chunk_size:i*chunk_size+chunk_size])
 	yield np.asarray(temp)
 
