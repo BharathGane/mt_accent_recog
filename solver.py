@@ -48,8 +48,7 @@ def data_loader(value):
                     source = os.path.join("./final_features",label_file_name[i][j]+".pkl")
                     for k in utils.read_audio_file_data_pickle(source,iterator,number_of_samples_in_each_chunk):
                         gc.collect()
-                        print k
-                        yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+                        yield (torch.tensor(np.tile(k[0],(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
             for j in [0,1,2,3]:
