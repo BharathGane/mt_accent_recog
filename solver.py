@@ -12,7 +12,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(),lr=0.001, momentum=0.9)
+optimizer = optim.SGD(model.parameters(),lr=0.0001)
 exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
 criterion = nn.CrossEntropyLoss().cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -37,7 +37,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 500
+    traning_time_in_sec = 200
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
@@ -71,18 +71,19 @@ def test():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
-        print labels,predicted
+        # print labels,predicted
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
         # print class_total,class_correct
+    print outputs
     print sum(class_correct)/sum(class_total)
     return class_total,class_correct
 
 def train():
     # model.load_state_dict(torch.load('./kernal_101_1.pt'))
     # model.eval()
-    for epoch in range(1):  # loop over the dataset multiple times
+    for epoch in range(2):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
@@ -100,7 +101,7 @@ def train():
             optimizer.step()
 
             # print statistics
-            print('current loss', loss.item())
+            # print('current loss', loss.item())
             running_loss += loss.item()
             if i % 100  == 99:    # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
