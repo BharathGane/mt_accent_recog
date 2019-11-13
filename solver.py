@@ -13,7 +13,7 @@ print(device)
 model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(),lr=0.01)
-exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30, 60, 90], gamma=0.1)
+exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5, 30, 60, 90], gamma=0.1)
 criterion = nn.CrossEntropyLoss().cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
@@ -83,7 +83,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./kernal_101_1.pt'))
     # model.eval()
-    for epoch in range(2):  # loop over the dataset multiple times
+    for epoch in range(10):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
@@ -108,5 +108,6 @@ def train():
                       (epoch + 1, i + 1, running_loss / 99))
                 running_loss = 0.0
             gc.collect()
+        test()
     # torch.save(model.state_dict(), "./kernal_101_1.pt")
     # print('Finished Training')
