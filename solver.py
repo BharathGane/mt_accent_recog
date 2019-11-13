@@ -12,7 +12,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(),lr=0.1, momentum=0.9)
+optimizer = optim.SGD(model.parameters(),lr=0.001, momentum=0.9)
 exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
 criterion = nn.CrossEntropyLoss().cuda()
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -46,9 +46,7 @@ def data_loader(value):
                 file_indexes = range(len(label_file_name[i])-1)
                 for j in file_indexes:
                     # print iterator,i,j
-                    # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
                     source = os.path.join("./combined_wav_files",label_file_name[i][j]+".wav")
-                    # for k in range(0,traning_time_in_sec/time_each_chunk):
                     for k in utils.read_audio_file_data_chunks(source,iterator,chunk_freq,number_of_chunks):
                         gc.collect()
                         yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
