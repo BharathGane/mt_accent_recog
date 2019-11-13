@@ -90,6 +90,7 @@ def train():
             model.train()
             # forward + backward + optimize
             outputs = model(inputs).to(device)
+            print outputs.size(), labels.size()
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
