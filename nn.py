@@ -94,8 +94,11 @@ class MyNet(nn.Module):
         ##############  multiFeature formed above  ##############################
         print x3.size()
         h = self.layer3(x3)
+        print ("Layer 3: ", h.size())
         h = self.bn3(h)
+        print ("Layer 3: ", h.size())
         h = self.relu(h)
+        print ("Layer 3: ", h.size())
         h = self.pool3(h)  
         print ("Layer 3: ", h.size())
 
