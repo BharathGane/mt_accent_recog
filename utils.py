@@ -51,6 +51,10 @@ def read_audio_file_data_chunks(source,interator,chunk_size,number_of_chunks):
 	# for i in range(number_of_chunks):
 	yield np.array(sf.read(start = interator*chunk_size,stop = interator*chunk_size+chunk_size,file = source)[0],dtype=float)
 
+def read_audio_file_data_chunks_test(source,chunk_size,number_of_chunks):
+	for i in range(number_of_chunks):
+		yield np.array(sf.read(start = i*chunk_size,stop = i*chunk_size+chunk_size,file = source)[0],dtype=float)
+
 def dump_pickle(data,file_path):
 	file = open(file_path, 'wb')
 	pickle.dump(data, file)

@@ -55,7 +55,7 @@ def data_loader(value):
             for j in [0,1,2,3]:
                 source = os.path.join("./combined_wav_files",label_file_name[i][j]+".wav")
                 # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
-                for k in utils.read_audio_file_data_chunks(source,chunk_freq,number_of_chunks):
+                for k in utils.read_audio_file_data_chunks_test(source,chunk_freq,number_of_chunks):
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
                     gc.collect()
                     # yield (torch.from_numpy(np.tile(data_array[k*chunk_freq:k*chunk_freq+chunk_freq],(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
