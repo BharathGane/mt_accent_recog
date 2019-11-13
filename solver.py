@@ -61,8 +61,8 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    # model.load_state_dict(torch.load('./kernal_101_1.pt'))
-    # model.eval()
+    model.load_state_dict(torch.load('./kernal_101_1.pt'))
+    model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
@@ -100,13 +100,12 @@ def train():
             optimizer.step()
 
             # print statistics
-            print('current loss', loss.item())
             running_loss += loss.item()
-            if i % 100  == 99:    # print every 2000 mini-batches
+            if i % 1000  == 999:    # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 99))
+                      (epoch + 1, i + 1, running_loss / 999))
                 running_loss = 0.0
             gc.collect()
         print test()
-    # torch.save(model.state_dict(), "./kernal_101_1.pt")
-    # print('Finished Training')
+    torch.save(model.state_dict(), "./kernal_101_1.pt")
+    print('Finished Training')
