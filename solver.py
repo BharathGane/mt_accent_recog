@@ -41,16 +41,16 @@ def data_loader(value):
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
-        for iterator in range(int(traning_time_in_sec/time_each_chunk)):
+        for iterator in range(number_of_chunks):
             for i in labels:
                 file_indexes = range(len(label_file_name[i])-1)
                 for j in file_indexes:
-                    print iterator,i,j
+                    # print iterator,i,j
                     # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][j]+".wav"))
                     source = os.path.join("./combined_wav_files",label_file_name[i][j]+".wav")
                     # for k in range(0,traning_time_in_sec/time_each_chunk):
                     for k in utils.read_audio_file_data_chunks(source,iterator,chunk_freq,number_of_chunks):
-                        gc.collect()    
+                        gc.collect()
                         yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
