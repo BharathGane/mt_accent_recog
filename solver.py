@@ -108,6 +108,6 @@ def train():
                       (epoch + 1, i + 1, running_loss / 99))
                 running_loss = 0.0
             gc.collect()
-        test()
+        print test()
     # torch.save(model.state_dict(), "./kernal_101_1.pt")
     # print('Finished Training')
