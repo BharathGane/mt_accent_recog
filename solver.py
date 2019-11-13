@@ -76,7 +76,7 @@ def test():
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
         # print class_total,class_correct
-    print outputs
+    # print outputs
     print sum(class_correct)/sum(class_total)
     return class_total,class_correct
 
