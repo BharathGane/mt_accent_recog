@@ -37,7 +37,7 @@ for i in range(len(labels)):
 def data_loader(value):
     # 1/43 second each 
     number_of_samples = 33000
-    chunk_size = 43
+    chunk_size = 67
     number_of_chunks = number_of_samples/chunk_size
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
