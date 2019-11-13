@@ -123,7 +123,7 @@ class MyNet(nn.Module):
         h = self.relu(h)
         h = self.dropout(h)
         h = self.fc3(h)
-        print ("Layer last: ", h.size())
+        # print ("Layer last: ", h.size())
         return h
 
 mynet = MyNet().double()
