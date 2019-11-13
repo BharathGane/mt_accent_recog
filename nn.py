@@ -86,15 +86,14 @@ class MyNet(nn.Module):
         x3 = torch.unsqueeze(x3, 1)
         # print x3.size()
         # h = x2.clone().detach()
-        h = x3.clone().detach()
+        # h = x3.clone().detach()
         # print h.size()
         # h = torch.tensor(x2)    
         # print ("After Concatination: ", h.size())
 
         ##############  multiFeature formed above  ##############################
 
-        h = x3
-        h = self.layer3(h)
+        h = self.layer3(x3)
         h = self.bn3(h)
         h = self.relu(h)
         h = self.pool3(h)  
