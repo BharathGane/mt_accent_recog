@@ -36,7 +36,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 40
+    traning_time_in_sec = 30
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
@@ -80,7 +80,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./kernal_101_1.pt'))
     # model.eval()
-    for epoch in range(10):  # loop over the dataset multiple times
+    for epoch in range(1):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
@@ -90,7 +90,7 @@ def train():
             model.train()
             # forward + backward + optimize
             outputs = model(inputs).to(device)
-            print outputs.size(), labels.size()
+            print outputs, labels
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
