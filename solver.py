@@ -41,6 +41,7 @@ def data_loader(value):
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
     if value == "train":
+        random.shuffle(labels)
         for i in labels:
             file_indexes = range(len(label_file_name[i])-1)
             random.shuffle(file_indexes)
