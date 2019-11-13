@@ -121,7 +121,7 @@ class MyNet(nn.Module):
         # print h.size()
         h = self.fc1(h)
         # print h.size()
-        h = F.relu(h)
+        h = self.relu(h)
         h = self.dropout(h)
         h = self.fc2(h)
         # print ("Layer last: ", h.size())
