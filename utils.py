@@ -10,6 +10,26 @@ import numpy as np
 import gc
 import soundfile as sf
 
+import pickle
+import librosa
+
+def extract_feature(source):
+	for root, dirnames, filenames in os.walk(source):
+		for i in filenames:
+			final = np.array()
+			X, sample_rate = librosa.load(os.path.join(root,i))
+			stft = np.abs(librosa.stft(X))
+			mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=40).T,axis=0)
+			chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T,axis=0)
+			mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T,axis=0)
+			contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sample_rate).T,axis=0)
+			tonnetz = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(X), sr=sample_rate).T,axis=0)
+			final = np.concatenate((mfccs,chroma,mel,contrast,tonnetz),axis = 0)
+			pickle_out = open(os.path.join(root,i.split('.')[0]+'.pkl'),"wb")
+			pickle.dump(final, pickle_out)
+			pickle_out.close()
+			gc.collect()
+
 def seperate_files(source):
 	max_length = 0
 	max_length_np = 0
@@ -72,8 +92,9 @@ def combine_all_audio_files(source):
 	sf.write(destination,all_data,44100)
 	return "success"
 if __name__ == '__main__':
-	for i in read_audio_file_data_chunks("./combined_wav_files/ABA.wav",20,5):
-		print i
+	extract_feature('./combined_wav_files/')
+	# for i in read_audio_file_data_chunks("./combined_wav_files/ABA.wav",20,5):
+		# print i
 	# seperate_files("./recordings")
 	# find_max_length("./l2arctic_release_v4.0/")
 	# print len(read_audio_file_data("arctic_a0001.wav"))
