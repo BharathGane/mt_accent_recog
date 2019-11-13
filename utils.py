@@ -16,7 +16,7 @@ import librosa
 def extract_feature(source):
 	for root, dirnames, filenames in os.walk(source):
 		for i in filenames:
-			final = np.array()
+			final = np.array([])
 			X, sample_rate = librosa.load(os.path.join(root,i))
 			stft = np.abs(librosa.stft(X))
 			mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=40).T,axis=0)
