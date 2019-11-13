@@ -52,7 +52,7 @@ def data_loader(value):
     elif value == "test":
         for i in labels:
             for j in [0,1,2,3]:
-                    source = os.path.join("./final_features",label_file_name[i][j]+".pkl")
+                source = os.path.join("./final_features",label_file_name[i][j]+".pkl")
                 # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
                 for k in utils.read_audio_file_data_pickle_test(source,chunk_freq,number_of_chunks):
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
