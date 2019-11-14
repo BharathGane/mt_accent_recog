@@ -12,8 +12,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(),lr=0.01).to(device)
-exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5, 30, 60, 90], gamma=0.1).to(device)
+optimizer = optim.SGD(model.parameters(),lr=0.01)
+exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5, 30, 60, 90], gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
