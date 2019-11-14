@@ -63,7 +63,7 @@ class MyNet(nn.Module):
         self.relu = nn.ReLU()
         
     def forward(self, x):
-        print("inside model")
+        # print("inside model")
         x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x)))
         x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
         x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
