@@ -30,7 +30,7 @@ label_file_name = {'Chinese': ['TXHC', 'BWC', 'LXC', 'NCC'],
                 'Arabic': ['YBAA', 'SKA', 'ZHAA', 'ABA']}
 labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
 labels_id = {}
-labels_index = range(6)
+labels_index = map(float(range(6)))
 for i in range(len(labels)):
     labels_id[labels[i]] = list(0 for i in range(6))
     labels_id[labels[i]][i] = 1
@@ -50,7 +50,7 @@ def data_loader(value):
                 for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
                     print type(labels_index),labels_index
-                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.long).cuda())
+                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
                     # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
     elif value == "test":
         for i in labels:
@@ -58,7 +58,7 @@ def data_loader(value):
                 source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
                 for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
-                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.long).cuda())
+                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
                     # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
