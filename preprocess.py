@@ -3,6 +3,18 @@ import pickle
 import os 
 import numpy as np
 import gc
+def reduce_size(source):
+	for root, dirnames, filenames in os.walk(source):
+		for i in filenames:
+			print i
+			final = []
+			with open(os.path.join(root,i),"rb") as file_:
+				data = pickle.load(file_)
+			pickle_out = open(os.path.join("./final_features3",i),"wb")
+			pickle.dump(data[0:500], pickle_out)
+			pickle_out.close()
+			gc.collect()
+
 def pkl_dump(source):
 	for root, dirnames, filenames in os.walk(source):
 		for i in filenames:
@@ -53,4 +65,5 @@ def extract_features_stats(source):
 
 
 if __name__ == '__main__':
-	extract_features("./pkl_files")
+	# extract_features("./pkl_files")
+	reduce_size("./pkl_files")
