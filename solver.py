@@ -49,6 +49,7 @@ def data_loader(value):
                 source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
                 for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
+                    print type(labels_id),labels_id
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_id),(1)),dtype = torch.long).cuda())
                     # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
     elif value == "test":
