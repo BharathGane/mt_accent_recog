@@ -2,7 +2,6 @@ from torch import optim
 import utils
 import gc
 import torch
-import random
 from nn import MyNet
 from torch import nn
 import os
@@ -36,33 +35,37 @@ for i in range(len(labels)):
 
 def data_loader(value):
     # 1/43 second each 
-    number_of_samples = 30000
-    chunk_size = 67
-    number_of_chunks = number_of_samples/chunk_size
-    # print freq,chunk_freq,time_each_chunk,traning_time_in_sec,number_of_chunks
+    # number_of_samples = 30000
+    # chunk_size = 67
+    # number_of_chunks = number_of_samples/chunk_size
+    freq = 44100
+    chunk_freq = 66150
+    time_each_chunk = float(chunk_freq)/float(freq)
+    traning_time_in_sec = 200
+    number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     if value == "train":
         for iterator in range(number_of_chunks):
             for i in labels:
                 file_indexes = range(len(label_file_name[i])-1)
                 for j in file_indexes:
-                    source = os.path.join("./final_features2",label_file_name[i][j]+".pkl")
-                    for k in utils.read_audio_file_data_pickle(source,iterator,chunk_size):
+                    source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
+                    for k in utils.read_audio_dump(source,iterator,chunk_freq,number_of_chunks):
                         gc.collect()
                         yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
-            for j in [0,1,2,3]:
-                source = os.path.join("./final_features2",label_file_name[i][j]+".pkl")
+            for j in [3]:
+                source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
                 # data_array = utils.read_audio_file_data(os.path.join("./combined_wav_files",label_file_name[i][3]+".wav"))
-                for k in utils.read_audio_file_data_pickle_test(source,chunk_size,number_of_chunks):
+                for k in utils.read_audio_file_data_pickle_test(source,chunk_freq,number_of_chunks):
                 # for k in range(0,traning_time_in_sec/time_each_chunk):
                     gc.collect()
                     # yield (torch.from_numpy(np.tile(data_array[k*chunk_freq:k*chunk_freq+chunk_freq],(32,1,1)),dtype = torch.cuda.DoubleTensor).cuda(),torch.from_numpy(np.tile(np.asarray(labels.index(i)),(32)),dtype = torch.cuda.LongTensor).cuda())
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./kernal_101_1.pt'))
-    model.eval()
+    # model.load_state_dict(torch.load('./kernal_101_1.pt'))
+    # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
@@ -107,6 +110,6 @@ def train():
                       (epoch + 1, i + 1, running_loss / 99))
                 running_loss = 0.0
             gc.collect()
-        torch.save(model.state_dict(), "./kernal_101_1.pt")
+        # torch.save(model.state_dict(), "./kernal_101_1.pt")
         print test()
     print('Finished Training')
