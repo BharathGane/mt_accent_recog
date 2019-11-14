@@ -11,7 +11,7 @@ def reduce_size(source):
 			with open(os.path.join(root,i),"rb") as file_:
 				data = pickle.load(file_)
 			pickle_out = open(os.path.join("./final_features3",i),"wb")
-			pickle.dump(data[0:500], pickle_out)
+			pickle.dump(data[0:500*44100], pickle_out)
 			pickle_out.close()
 			gc.collect()
 
