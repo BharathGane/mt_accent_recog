@@ -30,7 +30,7 @@ label_file_name = {'Chinese': ['TXHC', 'BWC', 'LXC', 'NCC'],
                 'Arabic': ['YBAA', 'SKA', 'ZHAA', 'ABA']}
 labels = ["Chinese","Vietnamese","Hindi","Spanish","Korean","Arabic"]
 labels_id = {}
-labels_index = map(float(range(6)))
+labels_index = map(float,(range(6)))
 for i in range(len(labels)):
     labels_id[labels[i]] = list(0 for i in range(6))
     labels_id[labels[i]][i] = 1
