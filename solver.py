@@ -12,9 +12,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(),lr=0.01)
-exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5, 30, 60, 90], gamma=0.1)
-criterion = nn.CrossEntropyLoss().cuda()
+optimizer = optim.SGD(model.parameters(),lr=0.01).to(device)
+exp_lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5, 30, 60, 90], gamma=0.1).to(device)
+criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
                 "ASI":"Hindi","RRBI":"Hindi","SVBI":"Hindi","TNI":"Hindi",
@@ -40,14 +40,14 @@ def data_loader(value):
     traning_time_in_sec = 10
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     if value == "train":
-        for iterator in range(number_of_chunks):
-            for i in labels:
-                file_indexes = range(len(label_file_name[i])-1)
-                for j in file_indexes:
-                    source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
-                    for k in utils.read_audio_dump(source,iterator,chunk_freq,number_of_chunks):
-                        gc.collect()
-                        yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+        # for iterator in range(number_of_chunks):
+        for i in labels:
+            file_indexes = range(len(label_file_name[i])-1)
+            for j in file_indexes:
+                source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
+                for k in utils.read_audio_file_data_pickle_test(source,chunk_freq,number_of_chunks):
+                    gc.collect()
+                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
             for j in [3]:
