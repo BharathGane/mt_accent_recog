@@ -11,7 +11,6 @@ import gc
 import soundfile as sf
 
 import pickle
-import librosa
 
 def extract_feature(source):
 	for root, dirnames, filenames in os.walk(source):
