@@ -39,7 +39,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 3
+    traning_time_in_sec = 300
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     if value == "train":
         # for iterator in range(number_of_chunks):
@@ -83,7 +83,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./not_final.pt'))
     # model.eval()
-    for epoch in range(2):  # loop over the dataset multiple times
+    for epoch in range(20):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
