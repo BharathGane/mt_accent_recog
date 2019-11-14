@@ -58,8 +58,8 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./temp2.pt'))
-    model.eval()
+    # model.load_state_dict(torch.load('./temp2.pt'))
+    # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
@@ -77,9 +77,9 @@ def test():
     return class_total,class_correct
 
 def train():
-    model.load_state_dict(torch.load('./temp2.pt'))
-    model.eval()
-    for epoch in range(100):  # loop over the dataset multiple times
+    # model.load_state_dict(torch.load('./temp2.pt'))
+    # model.eval()
+    for epoch in range(2):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
@@ -93,7 +93,7 @@ def train():
             # forward + backward + optimize
             outputs = model(inputs).to(device)
             # print outputs, labels
-            loss = torch.sqrt(criterion(outputs, labels))
+            loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
 
@@ -104,7 +104,7 @@ def train():
                 print [epoch + 1, i + 1, running_loss/99]
                 running_loss = 0.0
             gc.collect()
-        torch.save(model.state_dict(), "./temp2.pt")
+        # torch.save(model.state_dict(), "./temp2.pt")
         print "traning ended for ",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
