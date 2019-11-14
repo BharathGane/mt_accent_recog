@@ -81,7 +81,7 @@ class MyNet(nn.Module):
         x3 = torch.unsqueeze(x3, 1)  
 
         h = torch.cat((x1, x2, x3), dim=2) 
-        print ("After Concatination: ", h.size())
+        # print ("After Concatination: ", h.size())
         
         ##############  multiFeature formed above  ##############################
         
@@ -90,25 +90,25 @@ class MyNet(nn.Module):
         h = self.bn3(h)
         h = self.relu(h)
         h = self.pool3(h)  
-        print ("Layer 3: ", h.size())
+        # print ("Layer 3: ", h.size())
         
         h = self.layer4(h)
         h = self.bn4(h)
         h = self.relu(h)
         h = self.pool4(h)  
-        print ("Layer 4: ", h.size())
+        # print ("Layer 4: ", h.size())
         
         h = self.layer5(h)
         h = self.bn5(h)
         h = self.relu(h)
         h = self.pool5(h)  
-        print ("Layer 5: ", h.size())
+        # print ("Layer 5: ", h.size())
         
         h = self.layer6(h)
         h = self.bn6(h)
         h = self.relu(h)
         h = self.pool6(h)  
-        print ("Layer 6: ", h.size())
+        # print ("Layer 6: ", h.size())
        
         h = h.view(-1, num_flat_features(h))  
         h = F.relu(self.fc1(h))
@@ -116,7 +116,7 @@ class MyNet(nn.Module):
         h = F.relu(self.fc2(h))
         h = self.dropout(h)
         h = self.fc3(h)
-        print ("Layer last: ", h.size())
+        # print ("Layer last: ", h.size())
         return h
 
 
