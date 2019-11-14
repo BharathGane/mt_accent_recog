@@ -51,7 +51,7 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
     elif value == "test":
         for i in labels:
-            for j in [3]:
+            for j in [0,3]:
                 source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
                 for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
@@ -93,7 +93,7 @@ def train():
             # forward + backward + optimize
             outputs = model(inputs).to(device)
             # print outputs, labels
-            loss = criterion(outputs, labels)
+            loss = torch.sqrt(criterion(outputs, labels))
             loss.backward()
             optimizer.step()
 
