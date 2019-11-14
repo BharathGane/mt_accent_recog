@@ -37,7 +37,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 
+    traning_time_in_sec = 200
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     if value == "train":
         # for iterator in range(number_of_chunks):
@@ -57,8 +57,8 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    # model.load_state_dict(torch.load('./kernal_101_1.pt'))
-    # model.eval()
+    model.load_state_dict(torch.load('./model.pt'))
+    model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
@@ -76,7 +76,7 @@ def test():
     return class_total,class_correct
 
 def train():
-    # model.load_state_dict(torch.load('./kernal_101_1.pt'))
+    # model.load_state_dict(torch.load('./model.pt'))
     # model.eval()
     for epoch in range(10):  # loop over the dataset multiple times
         running_loss = 0.0
@@ -104,7 +104,7 @@ def train():
                       (epoch + 1, i + 1, running_loss / 99))
                 running_loss = 0.0
             gc.collect()
-        # torch.save(model.state_dict(), "./kernal_101_1.pt")
+        torch.save(model.state_dict(), "./model.pt")
         print "traning ended for ",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
