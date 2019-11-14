@@ -37,7 +37,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 10
+    traning_time_in_sec = 
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     if value == "train":
         # for iterator in range(number_of_chunks):
@@ -45,14 +45,14 @@ def data_loader(value):
             file_indexes = range(len(label_file_name[i])-1)
             for j in file_indexes:
                 source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
-                for k in utils.read_audio_dump_test(source,chunk_freq,number_of_chunks):
+                for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
     elif value == "test":
         for i in labels:
             for j in [3]:
                 source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
-                for k in utils.read_audio_dump_test(source,chunk_freq,number_of_chunks):
+                for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
@@ -80,6 +80,7 @@ def train():
     # model.eval()
     for epoch in range(10):  # loop over the dataset multiple times
         running_loss = 0.0
+        print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data[0].to(device),data[1].to(device)
@@ -97,12 +98,15 @@ def train():
 
             # print statistics
             running_loss += loss.item()
-            print loss.item()
+            # print loss.item()
             if i % 100  == 99:    # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
                       (epoch + 1, i + 1, running_loss / 99))
                 running_loss = 0.0
             gc.collect()
         # torch.save(model.state_dict(), "./kernal_101_1.pt")
+        print "traning ended for ",str(epoch),"epoch"
+        print "testing started after ",str(epoch),"epoch"
         print test()
+        print "testing ended after",str(epoch),"epoch"
     print('Finished Training')
