@@ -49,8 +49,8 @@ def data_loader(value):
                 source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
                 for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
                     gc.collect()
-                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
-                    # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
+                    # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
+                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
     elif value == "test":
         for i in labels:
             for j in [0,3]:
@@ -72,7 +72,7 @@ def test():
         _, predicted = torch.max(outputs, 1)
         print predicted
         print labels
-        if predicted[0] == labels:
+        if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
         # print class_total,class_correct
@@ -97,7 +97,7 @@ def train():
             # forward + backward + optimize
             outputs = model(inputs).to(device)
             # print outputs, labels
-            loss = criterion(outputs, labels)
+            loss = torch.sqrt(criterion(outputs, labels))
             loss.backward()
             optimizer.step()
 
