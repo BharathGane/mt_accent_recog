@@ -45,7 +45,7 @@ def data_loader(value):
             file_indexes = range(len(label_file_name[i])-1)
             for j in file_indexes:
                 source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
-                for k in utils.read_audio_file_data_pickle_test(source,chunk_freq,number_of_chunks):
+                for k in utils.read_audio_dump_test(source,chunk_freq,number_of_chunks):
                     gc.collect()
                     print k
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
@@ -53,7 +53,7 @@ def data_loader(value):
         for i in labels:
             for j in [3]:
                 source = os.path.join("./pkl_files/",label_file_name[i][j]+".pkl")
-                for k in utils.read_audio_file_data_pickle_test(source,chunk_freq,number_of_chunks):
+                for k in utils.read_audio_dump_test(source,chunk_freq,number_of_chunks):
                     gc.collect()
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
