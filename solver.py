@@ -66,7 +66,7 @@ def data_loader(value):
             file_indexes = range(len(label_file_name[i])-1)
             for i in labels:
                 for j in file_indexes:
-                    data = final_data[i.index][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
+                    data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
                     yield (torch.tensor(np.tile(data,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
 
     elif value == "test":
@@ -79,7 +79,7 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./not_final.pt'))
+    model.load_state_dict(PyTorch.load('./not_final.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -87,7 +87,7 @@ def test():
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
-        _, predicted = torch.max(outputs, 1)
+        _, predicted = PyTorch.max(outputs, 1)
         # print predicted
         # print labels
         if predicted == labels:
