@@ -38,7 +38,7 @@ final_data = []
 
 for i in labels:
     final = []
-    file_indexes = range(len(label_file_name[i])-1)
+    file_indexes = range(len(label_file_name[i]))
     for j in file_indexes:
         source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
         with open(source) as file_:
@@ -66,7 +66,7 @@ def data_loader(value):
     if value == "train":
         for iterator in range(number_of_chunks):
             for i in labels:
-                file_indexes = range(len(label_file_name[i]))
+                file_indexes = range(len(label_file_name[i])-1)
                 for j in file_indexes:
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
