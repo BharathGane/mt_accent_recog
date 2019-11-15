@@ -46,6 +46,7 @@ for i in labels:
         final.append(data)
     final_data.append(final)
 final_data = torch.tensor(np.asarray(final_data)).to(device)
+gc.collect()
 def data_loader(value):
     freq = 44100
     chunk_freq = 66150
@@ -68,15 +69,14 @@ def data_loader(value):
                 file_indexes = range(len(label_file_name[i]))
                 for j in file_indexes:
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
-                    print data.size()
-                    yield (data.cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+                    yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
     elif value == "test":
         for i in labels:
             for j in [0,3]:
                 for iterator in range(number_of_chunks):
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
-                    yield (torch.tensor(np.tile(data,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+                    yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
     model.load_state_dict(torch.load('./not_final.pt'))
