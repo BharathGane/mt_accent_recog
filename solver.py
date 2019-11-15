@@ -34,7 +34,18 @@ labels_index = [map(float,(range(6)))]
 for i in range(len(labels)):
     labels_id[labels[i]] = list(0 for i in range(6))
     labels_id[labels[i]][i] = 1
+final_data = []
 
+for i in labels:
+    final = []
+    file_indexes = range(len(label_file_name[i])-1)
+    for j in file_indexes:
+        source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
+        with open(source) as file_:
+            data = pickle.load(file_)
+        final.append(data)
+    final_data.append(final)
+final_data = torch.tensor(np.asarray(final_data)).to(device)
 def data_loader(value):
     freq = 44100
     chunk_freq = 66150
@@ -52,18 +63,8 @@ def data_loader(value):
     #                 # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
     #                 yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
     if value == "train":
-        final_data = []
-        for i in labels:
-            final = []
-            file_indexes = range(len(label_file_name[i])-1)
-            for j in file_indexes:
-                source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
-                with open(source) as file_:
-                    data = pickle.load(file_)
-                final.append(data)
-            final_data.append(final)
         for iterator in range(number_of_chunks):
-            file_indexes = range(len(label_file_name[i])-1)
+            file_indexes = range(len(label_file_name[i]))
             for i in labels:
                 for j in file_indexes:
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
@@ -72,11 +73,9 @@ def data_loader(value):
     elif value == "test":
         for i in labels:
             for j in [0,3]:
-                source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
-                for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
-                    gc.collect()
-                    # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
-                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+                for iterator in range(number_of_chunks):
+                    data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
+                    yield (torch.tensor(np.tile(data,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
     model.load_state_dict(torch.load('./not_final.pt'))
@@ -114,7 +113,7 @@ def train():
             model.train()
             # forward + backward + optimize
             outputs = model(inputs).to(device)
-            print outputs, labels
+            # print outputs, labels
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
