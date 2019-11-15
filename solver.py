@@ -79,7 +79,7 @@ def data_loader(value):
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./final.pt'))
+    model.load_state_dict(torch.load('./model1.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -126,7 +126,7 @@ def train():
                 print [epoch + 1, i + 1, running_loss/99]
                 running_loss = 0.0
             gc.collect()
-        torch.save(model.state_dict(), "./final.pt")
+        torch.save(model.state_dict(), "./model1.pt")
         print "traning ended for ",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
