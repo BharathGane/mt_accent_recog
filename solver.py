@@ -15,7 +15,7 @@ model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.0005)
 exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=[60, 120, 140], gamma=0.1)
-criterion = nn.MSELoss().to(device)
+criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
                 "ASI":"Hindi","RRBI":"Hindi","SVBI":"Hindi","TNI":"Hindi",
@@ -41,16 +41,34 @@ def data_loader(value):
     time_each_chunk = float(chunk_freq)/float(freq)
     traning_time_in_sec = 300
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
+    # if value == "train":
+    #     # for iterator in range(number_of_chunks):
+    #     for i in labels:
+    #         file_indexes = range(len(label_file_name[i])-1)
+    #         for j in file_indexes:
+    #             source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
+    #             for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
+    #                 gc.collect()
+    #                 # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
+    #                 yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
     if value == "train":
-        # for iterator in range(number_of_chunks):
+        final_data = []
         for i in labels:
+            final = []
             file_indexes = range(len(label_file_name[i])-1)
             for j in file_indexes:
                 source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
-                for k in utils.read_audio_dump(source,chunk_freq,number_of_chunks):
-                    gc.collect()
-                    # yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels_index),(1)),dtype = torch.float).cuda())
-                    yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
+                with open(source) as file_:
+                    data = pickle.load(file_)
+                final.append(data)
+            final_data.append(final)
+        for iterator in range(number_of_chunks):
+            file_indexes = range(len(label_file_name[i])-1)
+            for i in labels:
+                for j in file_indexes:
+                    data = final_data[i.index][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
+                    yield (torch.tensor(np.tile(data,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
+
     elif value == "test":
         for i in labels:
             for j in [0,3]:
@@ -70,8 +88,8 @@ def test():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
-        print predicted
-        print labels
+        # print predicted
+        # print labels
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
@@ -96,7 +114,7 @@ def train():
             model.train()
             # forward + backward + optimize
             outputs = model(inputs).to(device)
-            # print outputs, labels
+            print outputs, labels
             loss = torch.sqrt(criterion(outputs, labels))
             loss.backward()
             optimizer.step()
