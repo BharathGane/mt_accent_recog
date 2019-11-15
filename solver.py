@@ -67,7 +67,7 @@ def data_loader(value):
             for i in labels:
                 for j in file_indexes:
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
-                    yield (torch.tensor(np.tile(data,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.float).cuda())
+                    yield (torch.tensor(np.tile(data,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
     elif value == "test":
         for i in labels:
