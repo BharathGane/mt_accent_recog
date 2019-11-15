@@ -79,7 +79,7 @@ def data_loader(value):
                     yield (torch.tensor(np.tile(k,(1,1,1)),dtype = torch.float).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(PyTorch.load('./not_final.pt'))
+    model.load_state_dict(torch.load('./not_final.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -87,7 +87,7 @@ def test():
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
-        _, predicted = PyTorch.max(outputs, 1)
+        _, predicted = torch.max(outputs, 1)
         # print predicted
         # print labels
         if predicted == labels:
@@ -115,7 +115,7 @@ def train():
             # forward + backward + optimize
             outputs = model(inputs).to(device)
             print outputs, labels
-            loss = torch.sqrt(criterion(outputs, labels))
+            loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
 
