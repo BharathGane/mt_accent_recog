@@ -101,7 +101,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./final.pt'))
     # model.eval()
-    for epoch in range(20):  # loop over the dataset multiple times
+    for epoch in range(1000):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
