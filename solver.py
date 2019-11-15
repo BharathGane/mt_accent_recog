@@ -73,7 +73,7 @@ def data_loader(value):
 
     elif value == "test":
         for i in labels:
-            for j in [0,3]:
+            for j in [3]:
                 for iterator in range(number_of_chunks):
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
