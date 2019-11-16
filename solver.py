@@ -99,8 +99,8 @@ def test():
     return class_total,class_correct
 
 def train():
-    # model.load_state_dict(torch.load('./final.pt'))
-    # model.eval()
+     model.load_state_dict(torch.load('./model2.pt'))
+    model.eval()
     for epoch in range(500):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
