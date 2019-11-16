@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.0005)
+optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.005)
 exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*20,range(10)), gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -79,7 +79,7 @@ def data_loader(value):
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model1.pt'))
+    model.load_state_dict(torch.load('./model2.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -101,7 +101,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./final.pt'))
     # model.eval()
-    for epoch in range(1000):  # loop over the dataset multiple times
+    for epoch in range(500):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
@@ -126,7 +126,7 @@ def train():
                 print [epoch + 1, i + 1, running_loss/99]
                 running_loss = 0.0
             gc.collect()
-        torch.save(model.state_dict(), "./model1.pt")
+        torch.save(model.state_dict(), "./model2.pt")
         print "traning ended for ",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
