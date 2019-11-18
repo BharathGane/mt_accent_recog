@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay= 0.005)
+optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.0005)
 exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*5,range(100)), gamma=0.1)
 print exp_lr_scheduler
 criterion = nn.CrossEntropyLoss().to(device)
@@ -82,7 +82,7 @@ def data_loader(value):
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model11.pt'))
+    model.load_state_dict(torch.load('./model12.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -131,7 +131,7 @@ def train():
                 running_loss = 0.0
             gc.collect()
         exp_lr_scheduler.step()    
-        torch.save(model.state_dict(), "./model11.pt")
+        torch.save(model.state_dict(), "./model12.pt")
         print "traning ended for ",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
