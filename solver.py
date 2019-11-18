@@ -40,13 +40,15 @@ for i in labels:
     final = []
     file_indexes = range(len(label_file_name[i]))
     for j in file_indexes:
-        source = os.path.join("./pkl_mini/",label_file_name[i][j]+".pkl")
+        source = os.path.join("./pkl_micro/",label_file_name[i][j]+".pkl")
         with open(source) as file_:
             data = pickle.load(file_)
         final.append(data)
     final_data.append(final)
 final_data = torch.tensor(np.asarray(final_data)).to(device)
 gc.collect()
+
+
 def data_loader(value):
     freq = 44100
     chunk_freq = 66150
