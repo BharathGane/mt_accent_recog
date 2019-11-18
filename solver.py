@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.005)
+optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay= 0.005)
 exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x* 3,range(10)), gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -101,7 +101,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
     # model.eval()
-    for epoch in range(500):  # loop over the dataset multiple times
+    for epoch in range(50):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
