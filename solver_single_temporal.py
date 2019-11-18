@@ -2,7 +2,7 @@ from torch import optim
 import utils
 import gc
 import torch
-from nn import MyNet
+from nn_single_temporal import MyNet
 from torch import nn
 import os
 import numpy as np
@@ -14,7 +14,7 @@ print(device)
 model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay= 0.005)
-exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x* 10,range(100)), gamma=0.1)
+exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x* 5,range(100)), gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
@@ -53,7 +53,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 300
+    traning_time_in_sec = 750
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # if value == "train":
     #     # for iterator in range(number_of_chunks):
