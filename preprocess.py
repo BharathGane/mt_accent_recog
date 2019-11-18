@@ -10,7 +10,7 @@ def reduce_size(source):
 			final = []
 			with open(os.path.join(root,i),"rb") as file_:
 				data = pickle.load(file_)
-			pickle_out = open(os.path.join("./pkl_mini",i),"wb")
+			pickle_out = open(os.path.join("./pkl_1000",i),"wb")
 			# print len(data)
 			pickle.dump(data[0:1000*44100], pickle_out)
 			pickle_out.close()
