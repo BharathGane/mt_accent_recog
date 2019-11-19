@@ -54,7 +54,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 1000
+    traning_time_in_sec = 600
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # if value == "train":
     #     # for iterator in range(number_of_chunks):
@@ -107,7 +107,7 @@ def test():
         class_total[labels[0]] += 1
         # print class_total,class_correct
     # print outputs
-    print sum(class_correct)/sum(class_total)
+    print "test accuracy : ",sum(class_correct)/sum(class_total)
     return class_total,class_correct,confusion_matrix
 
 def validate():
@@ -128,8 +128,8 @@ def validate():
         class_total[labels[0]] += 1
         # print class_total,class_correct
     # print outputs
-    print sum(class_correct)/sum(class_total)
-    return class_total,class_correct
+    print "validation accuracy : ",sum(class_correct)/sum(class_total)
+    return class_total,class_correct,confusion_matrix
 
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
@@ -159,14 +159,15 @@ def train():
             #     print [epoch + 1, i + 1, running_loss/99]
             #     running_loss = 0.0
             gc.collect()
-        print('epoch '+str(epoch+1)+'loss:'+str(running_loss))
+        print('epoch '+str(epoch+1)+' loss: '+str(running_loss))
         exp_lr_scheduler.step()    
         torch.save({"model":model.state_dict(),"optimizer":optimizer.state_dict(),"epoch":epoch+1}, "./model13.pt")
-        print "traning ended for ",str(epoch),"epoch"
-        print "validation started after ",str(epoch),"epoch"
-        print validate()
-        print "validation ended after",str(epoch),"epoch"
-        print "testing started after ",str(epoch),"epoch"
-        print test()
-        print "testing ended after",str(epoch),"epoch"
+        output = validate()
+        print "validation class_total",output[0]
+        print "validation class_correct",output[1]
+        print "validation confusion_matrix",output[2]
+        output = test()
+        print "class_total",output[0]
+        print "class_correct",output[1]
+        print "confusion_matrix",output[2]
     print('Finished Training')
