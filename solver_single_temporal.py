@@ -122,11 +122,6 @@ def validate():
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
-        print predicted,type(predicted)
-        print labels,type(labels)
-        print int(labels[0])
-        print int(predicted[0])
-        print confusion_matrix
         confusion_matrix[int(labels[0])][int(predicted[0])] +=1
         if predicted == labels:
             class_correct[labels[0]] += 1
