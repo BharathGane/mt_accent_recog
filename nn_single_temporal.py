@@ -113,7 +113,7 @@ class MyNet(nn.Module):
         # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x)))
         # x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
         # x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
-         x4 = self.relu(self.bn1_branch4(self.layer1_branch4(x)))
+        x4 = self.relu(self.bn1_branch4(self.layer1_branch4(x)))
         # x5 = self.relu(self.bn1_branch5(self.layer1_branch5(x)))
         # x6 = self.relu(self.bn1_branch6(self.layer1_branch6(x)))
         # x7 = self.relu(self.bn1_branch7(self.layer1_branch7(x)))
