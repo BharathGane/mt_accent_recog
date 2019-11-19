@@ -14,7 +14,7 @@ print(device)
 model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.0005)
-exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*5,range(100)), gamma=0.1)
+exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*10,range(100)), gamma=0.1)
 print exp_lr_scheduler
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -80,12 +80,20 @@ def data_loader(value):
                 for iterator in range(number_of_chunks):
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+    elif value == "validate":
+        for i in labels:
+            for j in [0,1,2]:
+                for iterator in range(number_of_chunks):
+                    data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
+                    yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model12.pt'))
+    checkpoint = torch.load('./model13.pt')
+    model.load_state_dict(checkpoint["model"])
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
+    confusion_matrix = list(0. for i in range(6))*6
     for i, data in enumerate(data_loader("test"), 0):
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
@@ -93,6 +101,30 @@ def test():
         _, predicted = torch.max(outputs, 1)
         # print predicted
         # print labels
+        confusion_matrix[labels][predicted] +=1
+        if predicted == labels:
+            class_correct[labels[0]] += 1
+        class_total[labels[0]] += 1
+        # print class_total,class_correct
+    # print outputs
+    print sum(class_correct)/sum(class_total)
+    return class_total,class_correct,confusion_matrix
+
+def validate():
+    checkpoint = torch.load('./model13.pt')
+    model.load_state_dict(checkpoint["model"])
+    model.eval()
+    class_correct = list(0. for i in range(6))
+    class_total = list(0. for i in range(6))
+    confusion_matrix = list(0. for i in range(6))*6
+    for i, data in enumerate(data_loader("validate"), 0):
+        gc.collect()
+        inputs, labels = data[0].to(device),data[1].to(device)
+        outputs = model(inputs).to(device)
+        _, predicted = torch.max(outputs, 1)
+        # print predicted
+        # print labels
+        confusion_matrix[labels][predicted] +=1
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
@@ -104,8 +136,7 @@ def test():
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
     # model.eval()
-    for epoch in range(50):  # loop over the dataset multiple times
-        print optimizer
+    for epoch in range(100):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
@@ -124,15 +155,19 @@ def train():
             optimizer.step()
 
             # print statistics
-            running_loss += loss.item()
+            running_loss = loss.item()
             # print loss.item()
-            if i % 100  == 99:    # print every 2000 mini-batches
-                print [epoch + 1, i + 1, running_loss/99]
-                running_loss = 0.0
+            # if i % 100  == 99:    # print every 2000 mini-batches
+            #     print [epoch + 1, i + 1, running_loss/99]
+            #     running_loss = 0.0
             gc.collect()
+        print('epoch '+str(epoch+1)+'loss:'+str(running_loss))
         exp_lr_scheduler.step()    
-        torch.save(model.state_dict(), "./model12.pt")
+        torch.save({"model":model.state_dict(),"optimizer":optimizer.state_dict(),"epoch":epoch+1}, "./model13.pt")
         print "traning ended for ",str(epoch),"epoch"
+        print "validation started after ",str(epoch),"epoch"
+        print validate()
+        print "validation ended after",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
         print "testing ended after",str(epoch),"epoch"
