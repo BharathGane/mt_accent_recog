@@ -69,7 +69,7 @@ class MyNet(nn.Module):
         # x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
-        # x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
+        x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
         # x3 = self.relu(self.bn2_branch3(self.layer2_branch3(x3)))
 
         # x1 = self.pool2_branch1(x1)
