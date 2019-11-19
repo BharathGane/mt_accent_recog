@@ -14,7 +14,7 @@ print(device)
 model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.0005)
-exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*10,range(100)), gamma=0.1)
+exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*30,range(150)), gamma=0.1)
 print exp_lr_scheduler
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
@@ -116,14 +116,17 @@ def validate():
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
-    confusion_matrix = list(0. for i in range(6))*6
+    confusion_matrix = list(0 for i in range(6))*6
     for i, data in enumerate(data_loader("validate"), 0):
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
         outputs = model(inputs).to(device)
         _, predicted = torch.max(outputs, 1)
-        # print predicted
-        # print labels
+        print predicted,type(predicted)
+        print labels,type(labels)
+        print int(labels[0])
+        print int(predicted[0])
+        print confusion_matrix
         confusion_matrix[int(labels[0])][int(predicted[0])] +=1
         if predicted == labels:
             class_correct[labels[0]] += 1
@@ -136,7 +139,7 @@ def validate():
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
     # model.eval()
-    for epoch in range(100):  # loop over the dataset multiple times
+    for epoch in range(150):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
