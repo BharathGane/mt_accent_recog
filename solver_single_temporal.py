@@ -54,7 +54,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 750
+    traning_time_in_sec = 1000
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # if value == "train":
     #     # for iterator in range(number_of_chunks):
@@ -101,7 +101,7 @@ def test():
         _, predicted = torch.max(outputs, 1)
         # print predicted
         # print labels
-        confusion_matrix[labels][predicted] +=1
+        confusion_matrix[int(labels[0])][int(predicted[0])] +=1
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
@@ -124,7 +124,7 @@ def validate():
         _, predicted = torch.max(outputs, 1)
         # print predicted
         # print labels
-        confusion_matrix[labels][predicted] +=1
+        confusion_matrix[int(labels[0])][int(predicted[0])] +=1
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
