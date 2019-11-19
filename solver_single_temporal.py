@@ -93,7 +93,7 @@ def test():
     # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
-    confusion_matrix = [list(0 for i in range(6))]*6
+    confusion_matrix = list(list(0 for j in range(6)) for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
@@ -116,7 +116,7 @@ def validate():
     # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
-    confusion_matrix = [list(0 for i in range(6))]*6
+    confusion_matrix = list(list(0 for j in range(6)) for i in range(6))
     for i, data in enumerate(data_loader("validate"), 0):
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
