@@ -88,9 +88,9 @@ def data_loader(value):
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    checkpoint = torch.load('./model13.pt')
-    model.load_state_dict(checkpoint["model"])
-    model.eval()
+    # checkpoint = torch.load('./model13.pt')
+    # model.load_state_dict(checkpoint["model"])
+    # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     confusion_matrix = [list(0 for i in range(6))]*6
@@ -111,9 +111,9 @@ def test():
     return class_total,class_correct,confusion_matrix
 
 def validate():
-    checkpoint = torch.load('./model13.pt')
-    model.load_state_dict(checkpoint["model"])
-    model.eval()
+    # checkpoint = torch.load('./model13.pt')
+    # model.load_state_dict(checkpoint["model"])
+    # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
     confusion_matrix = [list(0 for i in range(6))]*6
