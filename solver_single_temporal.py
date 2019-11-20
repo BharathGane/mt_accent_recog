@@ -13,8 +13,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.85, weight_decay= 0.0005)
-exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*10,range(10)), gamma=0.1)
+optimizer = optim.SGD(model.parameters(), lr=0.00001, momentum=0.9, weight_decay= 0.0005)
+# exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*10,range(10)), gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
@@ -159,7 +159,7 @@ def train():
             #     running_loss = 0.0
             gc.collect()
         print('epoch '+str(epoch+1)+' loss: '+str(running_loss))
-        exp_lr_scheduler.step()    
+        # exp_lr_scheduler.step()    
         torch.save({"model":model.state_dict(),"optimizer":optimizer.state_dict(),"epoch":epoch+1}, "./model13.pt")
         output = validate()
         print "validation class_total",output[0]
