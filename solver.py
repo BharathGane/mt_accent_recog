@@ -79,12 +79,20 @@ def data_loader(value):
                 for iterator in range(number_of_chunks):
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
+    elif value == "validate":
+        for i in labels:
+            for j in [0,1,2]:
+                for iterator in range(number_of_chunks):
+                    data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
+                    yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model11.pt'))
-    model.eval()
+    # checkpoint = torch.load('./model13.pt')
+    # model.load_state_dict(checkpoint["model"])
+    # model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
+    confusion_matrix = list(list(0 for j in range(6)) for i in range(6))
     for i, data in enumerate(data_loader("test"), 0):
         gc.collect()
         inputs, labels = data[0].to(device),data[1].to(device)
@@ -92,13 +100,35 @@ def test():
         _, predicted = torch.max(outputs, 1)
         # print predicted
         # print labels
+        confusion_matrix[int(labels[0])][int(predicted[0])] +=1
         if predicted == labels:
             class_correct[labels[0]] += 1
         class_total[labels[0]] += 1
         # print class_total,class_correct
     # print outputs
-    print sum(class_correct)/sum(class_total)
-    return class_total,class_correct
+    print "test accuracy : ",sum(class_correct)/sum(class_total)
+    return class_total,class_correct,confusion_matrix
+
+def validate():
+    # checkpoint = torch.load('./model13.pt')
+    # model.load_state_dict(checkpoint["model"])
+    # model.eval()
+    class_correct = list(0. for i in range(6))
+    class_total = list(0. for i in range(6))
+    confusion_matrix = list(list(0 for j in range(6)) for i in range(6))
+    for i, data in enumerate(data_loader("validate"), 0):
+        gc.collect()
+        inputs, labels = data[0].to(device),data[1].to(device)
+        outputs = model(inputs).to(device)
+        _, predicted = torch.max(outputs, 1)
+        confusion_matrix[int(labels[0])][int(predicted[0])] +=1
+        if predicted == labels:
+            class_correct[labels[0]] += 1
+        class_total[labels[0]] += 1
+        # print class_total,class_correct
+    # print outputs
+    print "validation accuracy : ",sum(class_correct)/sum(class_total)
+    return class_total,class_correct,confusion_matrix
 
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
@@ -128,9 +158,15 @@ def train():
                 print [epoch + 1, i + 1, running_loss/99]
                 running_loss = 0.0
             gc.collect()
-        torch.save(model.state_dict(), "./model11.pt")
-        print "traning ended for ",str(epoch),"epoch"
-        print "testing started after ",str(epoch),"epoch"
-        print test()
-        print "testing ended after",str(epoch),"epoch"
+        print('epoch '+str(epoch+1)+' loss: '+str(running_loss))
+        # exp_lr_scheduler.step()    
+        # torch.save({"model":model.state_dict(),"optimizer":optimizer.state_dict(),"epoch":epoch+1}, "./model13.pt")
+        output = validate()
+        print "validation class_total",output[0]
+        print "validation class_correct",output[1]
+        print "validation confusion_matrix",output[2]
+        output = test()
+        print "class_total",output[0]
+        print "class_correct",output[1]
+        print "confusion_matrix",output[2]
     print('Finished Training')
