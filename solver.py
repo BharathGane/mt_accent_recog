@@ -13,8 +13,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch 
 print(device)
 model = MyNet().to(device)
 
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay= 0.005)
-exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*30,range(150)), gamma=0.1)
+optimizer = optim.SGD(model.parameters(), lr=0.0001, momentum=0.9, weight_decay= 0.005)
+# exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*30,range(150)), gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
@@ -133,9 +133,9 @@ def validate():
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
     # model.eval()
-    for epoch in range(50):  # loop over the dataset multiple times
+    for epoch in range(150):  # loop over the dataset multiple times
         running_loss = 0.0
-        print "traning started for ",str(epoch),"epoch"
+        print "traning started for ",str(epoch+1),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data[0].to(device),data[1].to(device)
@@ -152,13 +152,13 @@ def train():
             optimizer.step()
 
             # print statistics
-            running_loss += loss.item()
+            running_loss = loss.item()
             # print loss.item()
-            if i % 100  == 99:    # print every 2000 mini-batches
-                print [epoch + 1, i + 1, running_loss/99]
-                running_loss = 0.0
+            # if i % 100  == 99:    # print every 2000 mini-batches
+            #     print [epoch + 1, i + 1, running_loss/99]
+            #     running_loss = 0.0
             gc.collect()
-        print('epoch '+str(epoch+1)+' loss: '+str(running_loss))
+        print('epoch '+str(epoch+1)+' loss: '+str(loss.item()))
         # exp_lr_scheduler.step()    
         # torch.save({"model":model.state_dict(),"optimizer":optimizer.state_dict(),"epoch":epoch+1}, "./model13.pt")
         output = validate()
