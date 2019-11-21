@@ -74,7 +74,7 @@ class MyNet(nn.Module):
         self.pool2_branch3 = nn.MaxPool1d(kernel_size=15, stride=15)
         self.pool2_branch4 = nn.MaxPool1d(kernel_size=10, stride=10)
         # self.pool2_branch5 = nn.MaxPool1d(kernel_size=15, stride=15)
-        self.pool2_branch6 = nn.MaxPool1d(kernel_size=8, stride=8)
+        self.pool2_branch6 = nn.MaxPool1d(kernel_size=6, stride=6)
         self.pool2_branch7 = nn.MaxPool1d(kernel_size=5, stride=5)
         self.pool2_branch8 = nn.MaxPool1d(kernel_size=3, stride=3)
         # self.pool2_branch9 = nn.MaxPool1d(kernel_size=15, stride=15)
