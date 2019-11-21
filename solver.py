@@ -14,7 +14,7 @@ print(device)
 model = MyNet().to(device)
 
 optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay= 0.005)
-exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x* 10,range(100)), gamma=0.1)
+exp_lr_scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=map(lambda x: x*30,range(150)), gamma=0.1)
 criterion = nn.CrossEntropyLoss().to(device)
 file_name_label = {"ABA":"Arabic","SKA":"Arabic","YBAA":"Arabic","ZHAA":"Arabic","BWC":"Chinese",
                 "BWC":"Chinese","LXC":"Chinese","NCC":"Chinese","TXHC":"Chinese",
@@ -53,7 +53,7 @@ def data_loader(value):
     freq = 44100
     chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
-    traning_time_in_sec = 300
+    traning_time_in_sec = 600
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
     # if value == "train":
     #     # for iterator in range(number_of_chunks):
@@ -81,7 +81,7 @@ def data_loader(value):
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
 def test():
-    model.load_state_dict(torch.load('./model10.pt'))
+    model.load_state_dict(torch.load('./model11.pt'))
     model.eval()
     class_correct = list(0. for i in range(6))
     class_total = list(0. for i in range(6))
@@ -128,7 +128,7 @@ def train():
                 print [epoch + 1, i + 1, running_loss/99]
                 running_loss = 0.0
             gc.collect()
-        torch.save(model.state_dict(), "./model10.pt")
+        torch.save(model.state_dict(), "./model11.pt")
         print "traning ended for ",str(epoch),"epoch"
         print "testing started after ",str(epoch),"epoch"
         print test()
