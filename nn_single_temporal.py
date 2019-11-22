@@ -102,7 +102,7 @@ class MyNet(nn.Module):
         # self.fc1 = nn.Linear(6144, 1024)
         # self.fc1 = nn.Linear(5120, 1028)
         # self.fc2 = nn.Linear(1024, 6)
-        self.fc2 = nn.Linear(768, 1280)
+        self.fc2 = nn.Linear(1, 1280)
         self.fc3 = nn.Linear(256, 6)
 
         self.dropout = nn.Dropout(p=0.5)
