@@ -133,7 +133,7 @@ def validate():
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))
     # model.eval()
-    for epoch in range(150):  # loop over the dataset multiple times
+    for epoch in range(1000):  # loop over the dataset multiple times
         running_loss = 0.0
         print "traning started for ",str(epoch+1),"epoch"
         for i, data in enumerate(data_loader("train"), 0):
