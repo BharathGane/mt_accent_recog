@@ -51,7 +51,7 @@ gc.collect()
 
 def data_loader(value):
     freq = 44100
-    chunk_freq = 44100
+    chunk_freq = 66150
     time_each_chunk = float(chunk_freq)/float(freq)
     traning_time_in_sec = 600
     number_of_chunks = int(traning_time_in_sec/time_each_chunk)
