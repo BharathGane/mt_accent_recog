@@ -105,7 +105,7 @@ class MyNet(nn.Module):
         self.fc2 = nn.Linear(1280, 256)
         self.fc3 = nn.Linear(256, 6)
 
-        # self.dropout = nn.Dropout(p=0.5)
+        self.dropout = nn.Dropout(p=0.5)
         self.relu = nn.ReLU()
         
     def forward(self, x):
