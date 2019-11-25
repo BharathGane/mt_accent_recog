@@ -1,7 +1,7 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import csv
 import os
-import ast 
+import ast
 
 def read_results(source):
 	for root, dirnames, filenames in os.walk(source):
@@ -80,4 +80,4 @@ def plot_files(source):
 			plt.close()
 if __name__ == '__main__':
 	read_results("./results/")
-	plot_files("./csv_results")
+	# plot_files("./csv_results")
