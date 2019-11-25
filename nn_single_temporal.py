@@ -163,7 +163,7 @@ class MyNet(nn.Module):
         # x12 = torch.unsqueeze(x12, 1)
 
 
-        h = x1
+        h =  x1
         
         ##############  multiFeature formed above  ##############################
         
