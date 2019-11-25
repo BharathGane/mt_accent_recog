@@ -99,7 +99,7 @@ class MyNet(nn.Module):
         self.pool6 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
 
         # self.fc1 = nn.Linear(15360, 5120)
-        self.fc2 = nn.Linear(3072, 1024)
+        self.fc2 = nn.Linear(5120, 1024)
         self.fc3 = nn.Linear(1024, 256)
         self.fc4 = nn.Linear(256, 6)
         # self.fc2 = nn.Linear(1280, 256)
