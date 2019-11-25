@@ -79,5 +79,5 @@ def plot_files(source):
 			# plt.show()
 			plt.close()
 if __name__ == '__main__':
-	# read_results("./results/")
+	read_results("./results/")
 	plot_files("./csv_results")
