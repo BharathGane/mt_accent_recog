@@ -86,6 +86,7 @@ def data_loader(value):
                     data = final_data[labels.index(i)][j][iterator*chunk_freq:iterator*chunk_freq+chunk_freq]
                     yield (data.repeat((1,1,1)).cuda(),torch.tensor(np.tile(np.asarray(labels.index(i)),(1)),dtype = torch.long).cuda())
 
+
 def test():
     # checkpoint = torch.load('./model13.pt')
     # model.load_state_dict(checkpoint["model"])
@@ -109,6 +110,7 @@ def test():
     print "test accuracy : ",sum(class_correct)/sum(class_total)
     return class_total,class_correct,confusion_matrix
 
+
 def validate():
     # checkpoint = torch.load('./model13.pt')
     # model.load_state_dict(checkpoint["model"])
@@ -129,6 +131,7 @@ def validate():
     # print outputs
     print "validation accuracy : ",sum(class_correct)/sum(class_total)
     return class_total,class_correct,confusion_matrix
+
 
 def train():
     # model.load_state_dict(torch.load('./model2.pt'))

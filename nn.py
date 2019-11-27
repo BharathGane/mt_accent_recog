@@ -29,7 +29,6 @@ class MyNet(nn.Module):
         # self.layer1_branch10 = nn.Conv1d(in_channels=1, out_channels=32, kernel_size=751, stride=75, padding=375)
         # # self.layer1_branch11 = nn.Conv1d(in_channels=1, out_channels=32, kernel_size=1000, stride=100, padding=500)
         # self.layer1_branch12 = nn.Conv1d(in_channels=1, out_channels=32, kernel_size=1501, stride=150, padding=750)
-
         self.bn1_branch1 = nn.BatchNorm1d(32)
         self.bn1_branch2 = nn.BatchNorm1d(32)
         self.bn1_branch3 = nn.BatchNorm1d(32)
@@ -42,7 +41,6 @@ class MyNet(nn.Module):
         # self.bn1_branch10 = nn.BatchNorm1d(32)
         # # self.bn1_branch11 = nn.BatchNorm1d(32)
         # self.bn1_branch12 = nn.BatchNorm1d(32)
-
         self.layer2_branch1 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=11, stride=1, padding=5)
         self.layer2_branch2 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=11, stride=1, padding=5)
         self.layer2_branch3 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=11, stride=1, padding=5)
@@ -55,7 +53,6 @@ class MyNet(nn.Module):
         # self.layer2_branch10 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=11, stride=1, padding=5)
         # # self.layer2_branch11 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=11, stride=1, padding=5)
         # self.layer2_branch12 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=11, stride=1, padding=5)
-
         self.bn2_branch1 = nn.BatchNorm1d(32)
         self.bn2_branch2 = nn.BatchNorm1d(32)
         self.bn2_branch3 = nn.BatchNorm1d(32)
@@ -68,7 +65,6 @@ class MyNet(nn.Module):
         # self.bn2_branch10 = nn.BatchNorm1d(32)
         # # self.bn2_branch11 = nn.BatchNorm1d(32)
         # self.bn2_branch12 = nn.BatchNorm1d(32)
-
         self.pool2_branch1 = nn.MaxPool1d(kernel_size=150, stride=150)
         self.pool2_branch2 = nn.MaxPool1d(kernel_size=30, stride=30)
         self.pool2_branch3 = nn.MaxPool1d(kernel_size=15, stride=15)
@@ -81,33 +77,26 @@ class MyNet(nn.Module):
         # self.pool2_branch10 = nn.MaxPool1d(kernel_size=2, stride=2)
         # # self.pool2_branch11 = nn.MaxPool1d(kernel_size=2, stride=1)
         # self.pool2_branch12 = nn.MaxPool1d(kernel_size=1, stride=1)
-        
         self.layer3 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.bn3 = nn.BatchNorm2d(64)
         self.pool3 = nn.MaxPool2d(kernel_size=(3, 11), stride=(3, 11))
-
         self.layer4 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1, padding=1)
         self.bn4 = nn.BatchNorm2d(128)
         self.pool4 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
-
         self.layer5 = nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1)
         self.bn5 = nn.BatchNorm2d(256)
         self.pool5 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
-
         self.layer6 = nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1)
         self.bn6 = nn.BatchNorm2d(256)
         self.pool6 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
-
         # self.fc1 = nn.Linear(15360, 5120)
-        self.fc2 = nn.Linear(3072, 1024)
+        self.fc2 = nn.Linear(6144, 1024)
         self.fc3 = nn.Linear(1024, 256)
         self.fc4 = nn.Linear(256, 6)
         # self.fc2 = nn.Linear(1280, 256)
         # self.fc3 = nn.Linear(256, 6)
-
         self.dropout = nn.Dropout(p=0.5)
         self.relu = nn.ReLU()
-        
     def forward(self, x):
         # print("inside model")
         x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x)))
@@ -147,7 +136,6 @@ class MyNet(nn.Module):
         # print "x10.size()", x10.size()
         # print "x11.size()", x11.size()
         # print "x12.size()", x12.size()
-
         x1 = self.pool2_branch1(x1)
         x2 = self.pool2_branch2(x2)
         x3 = self.pool2_branch3(x3)
@@ -172,7 +160,6 @@ class MyNet(nn.Module):
         # print "x10.size()", x10.size()
         # print "x11.size()", x11.size()
         # print "x12.size()", x12.size()
-
         x1 = torch.unsqueeze(x1, 1)
         x2 = torch.unsqueeze(x2, 1)
         x3 = torch.unsqueeze(x3, 1)  
@@ -185,45 +172,37 @@ class MyNet(nn.Module):
         # x10 = torch.unsqueeze(x10, 1)
         # x11 = torch.unsqueeze(x11, 1)
         # x12 = torch.unsqueeze(x12, 1)
-
         # h = x1
         h = torch.cat((x1,x2,x3), dim=2) 
         # print ("After Concatination: ", h.size())
-        
         ##############  multiFeature formed above  ##############################
-        
-        
         h = self.layer3(h)
         h = self.bn3(h)
         h = self.relu(h)
         h = self.pool3(h)  
         # print ("Layer 3: ", h.size())
-        
         h = self.layer4(h)
         h = self.bn4(h)
         h = self.relu(h)
         h = self.pool4(h)  
         # print ("Layer 4: ", h.size())
-        
         h = self.layer5(h)
         h = self.bn5(h)
         h = self.relu(h)
         h = self.pool5(h)  
         # print ("Layer 5: ", h.size())
-        
         h = self.layer6(h)
         h = self.bn6(h)
         h = self.relu(h)
         h = self.pool6(h)  
         # print ("Layer 6: ", h.size())
-       
         h = h.view(-1, num_flat_features(h))  
         # h = F.relu(self.fc1(h))
         # h = self.dropout(h)
         # h = F.relu(self.fc1(h))
         # h = self.dropout(h)
-        # h = F.relu(self.fc2(h))
-        # h = self.dropout(h)
+        h = F.relu(self.fc2(h))
+        h = self.dropout(h)
         h = F.relu(self.fc3(h))
         h = self.dropout(h)
         h = self.fc4(h)
