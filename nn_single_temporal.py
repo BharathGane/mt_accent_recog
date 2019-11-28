@@ -100,7 +100,7 @@ class MyNet(nn.Module):
         self.pool6 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
 
         # self.fc1 = nn.Linear(6144, 1024)
-        # self.fc1 = nn.Linear(5120, 1028)
+        self.fc1 = nn.Linear(5120, 1280)
         # self.fc2 = nn.Linear(1024, 6)
         self.fc2 = nn.Linear(1280, 256)
         self.fc3 = nn.Linear(256, 6)
@@ -111,7 +111,7 @@ class MyNet(nn.Module):
     def forward(self, x):
         # 5 9 11 check out if it'll work
         # x1 = self.relu(self.bn1_branch1(self.layer1_branch1(x)))
-        # x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
+        x2 = self.relu(self.bn1_branch2(self.layer1_branch2(x)))
         # x3 = self.relu(self.bn1_branch3(self.layer1_branch3(x)))
         # x4 = self.relu(self.bn1_branch4(self.layer1_branch4(x)))
         # x5 = self.relu(self.bn1_branch5(self.layer1_branch5(x)))
@@ -119,12 +119,12 @@ class MyNet(nn.Module):
         # x7 = self.relu(self.bn1_branch7(self.layer1_branch7(x)))
         # x8 = self.relu(self.bn1_branch8(self.layer1_branch8(x)))
         # x9 = self.relu(self.bn1_branch9(self.layer1_branch9(x)))
-        x10 = self.relu(self.bn1_branch10(self.layer1_branch10(x)))
+        # x10 = self. relu(self.bn1_branch10(self.layer1_branch10(x)))
         # x11 = self.relu(self.bn1_branch11(self.layer1_branch11(x)))
         # x12 = self.relu(self.bn1_branch12(self.layer1_branch12(x)))
         #print("layer 1 completed")
         # x1 = self.relu(self.bn2_branch1(self.layer2_branch1(x1)))
-        # x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
+        x2 = self.relu(self.bn2_branch2(self.layer2_branch2(x2)))
         # x3 = self.relu(self.bn2_branch3(self.layer2_branch3(x3)))
         # x4 = self.relu(self.bn2_branch4(self.layer2_branch4(x4)))
         # x5 = self.relu(self.bn2_branch5(self.layer2_branch5(x5)))
@@ -132,12 +132,12 @@ class MyNet(nn.Module):
         # x7 = self.relu(self.bn2_branch7(self.layer2_branch7(x7)))
         # x8 = self.relu(self.bn2_branch8(self.layer2_branch8(x8)))
         # x9 = self.relu(self.bn2_branch9(self.layer2_branch9(x9)))
-        x10 = self.relu(self.bn2_branch10(self.layer2_branch10(x10)))
+        # x10 = self.relu(self.bn2_branch10(self.layer2_branch10(x10)))
         # x11 = self.relu(self.bn2_branch11(self.layer2_branch11(x11)))
         # x12 = self.relu(self.bn2_branch12(self.layer2_branch12(x12)))
 
         # x1 = self.pool2_branch1(x1)
-        # x2 = self.pool2_branch2(x2)
+        x2 = self.pool2_branch2(x2)
         # x3 = self.pool2_branch3(x3)
         # x4 = self.pool2_branch4(x4)
         # x5 = self.pool2_branch5(x5)
@@ -145,12 +145,12 @@ class MyNet(nn.Module):
         # x7 = self.pool2_branch7(x7)
         # x8 = self.pool2_branch8(x8)
         # x9 = self.pool2_branch9(x9)
-        x10 = self.pool2_branch10(x10)  
+        # x10 = self.pool2_branch10(x10)  
         # x11 = self.pool2_branch11(x11)  
         # x12 = self.pool2_branch12(x12)  
 
         # x1 = torch.unsqueeze(x1, 1)
-        # x2 = torch.unsqueeze(x2, 1)
+        x2 = torch.unsqueeze(x2, 1)
         # x3 = torch.unsqueeze(x3, 1)  
         # x4 = torch.unsqueeze(x4, 1)  
         # x5 = torch.unsqueeze(x5, 1)
@@ -158,12 +158,12 @@ class MyNet(nn.Module):
         # x7 = torch.unsqueeze(x7, 1)
         # x8 = torch.unsqueeze(x8, 1)
         # x9 = torch.unsqueeze(x9, 1)
-        x10 = torch.unsqueeze(x10, 1)
+        # x10 = torch.unsqueeze(x10, 1)
         # x11 = torch.unsqueeze(x11, 1)
         # x12 = torch.unsqueeze(x12, 1)
 
 
-        h = x10
+        h = x2
         
         ##############  multiFeature formed above  ##############################
         
@@ -193,8 +193,8 @@ class MyNet(nn.Module):
         # print ("Layer 6: ", h.size())
        
         h = h.view(-1, num_flat_features(h))  
-        # h = F.relu(self.fc1(h))
-        # h = self.dropout(h)
+        h = F.relu(self.fc1(h))
+         h = self.dropout(h)
         h  = F.relu(self.fc2(h))
         h = self.dropout(h)
         h = self.fc3(h)
