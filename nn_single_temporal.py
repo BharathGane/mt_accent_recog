@@ -130,9 +130,9 @@ class MyNet(nn.Module):
         # x5 = self.relu(self.bn2_branch5(self.layer2_branch5(x5)))
         # x6 = self.relu(self.bn2_branch6(self.layer2_branch6(x6)))
         # x7 = self.relu(self.bn2_branch7(self.layer2_branch7(x7)))
-        x8 = self.relu(self.bn2_branch8(self.layer2_branch8(x8)))
+        # x8 = self.relu(self.bn2_branch8(self.layer2_branch8(x8)))
         # x9 = self.relu(self.bn2_branch9(self.layer2_branch9(x9)))
-        # x10 = self.relu(self.bn2_branch10(self.layer2_branch10(x10)))
+        x10 = self.relu(self.bn2_branch10(self.layer2_branch10(x10)))
         # x11 = self.relu(self.bn2_branch11(self.layer2_branch11(x11)))
         # x12 = self.relu(self.bn2_branch12(self.layer2_branch12(x12)))
 
@@ -143,9 +143,9 @@ class MyNet(nn.Module):
         # x5 = self.pool2_branch5(x5)
         # x6 = self.pool2_branch6(x6)
         # x7 = self.pool2_branch7(x7)
-        x8 = self.pool2_branch8(x8)
+        # x8 = self.pool2_branch8(x8)
         # x9 = self.pool2_branch9(x9)
-        # x10 = self.pool2_branch10(x10)  
+        x10 = self.pool2_branch10(x10)  
         # x11 = self.pool2_branch11(x11)  
         # x12 = self.pool2_branch12(x12)  
 
@@ -156,14 +156,14 @@ class MyNet(nn.Module):
         # x5 = torch.unsqueeze(x5, 1)
         # x6 = torch.unsqueeze(x6, 1)
         # x7 = torch.unsqueeze(x7, 1)
-        x8 = torch.unsqueeze(x8, 1)
+        # x8 = torch.unsqueeze(x8, 1)
         # x9 = torch.unsqueeze(x9, 1)
-        # x10 = torch.unsqueeze(x10, 1)
+        x10 = torch.unsqueeze(x10, 1)
         # x11 = torch.unsqueeze(x11, 1)
         # x12 = torch.unsqueeze(x12, 1)
 
 
-        h = x8
+        h = x10
         
         ##############  multiFeature formed above  ##############################
         
