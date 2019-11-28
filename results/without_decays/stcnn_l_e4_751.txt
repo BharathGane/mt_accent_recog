@@ -1,0 +1,2 @@
+cuda
+traning started for  1 epoch
