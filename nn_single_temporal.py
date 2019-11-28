@@ -194,7 +194,7 @@ class MyNet(nn.Module):
        
         h = h.view(-1, num_flat_features(h))  
         h = F.relu(self.fc1(h))
-         h = self.dropout(h)
+        h = self.dropout(h)
         h  = F.relu(self.fc2(h))
         h = self.dropout(h)
         h = self.fc3(h)
